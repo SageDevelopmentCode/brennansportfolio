@@ -1,5 +1,6 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { AuthNav } from "@/components/auth-nav";
+import type { Metadata, Viewport } from "next";
+import { Fredoka, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -12,18 +13,34 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const fredoka = Fredoka({
+  variable: "--font-display",
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
-  title: "Brennan's Neighborhood",
-  description: "Brennan's Neighborhood",
+  title: "Brennan's Portfolio",
+  description: "Brennan's projects and apps",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${fredoka.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col font-sans">
+        <header className="relative z-20 flex justify-end px-4 pb-4 pt-[max(1rem,env(safe-area-inset-top))] sm:px-6">
+          <AuthNav />
+        </header>
+        {children}
+      </body>
     </html>
   );
 }
