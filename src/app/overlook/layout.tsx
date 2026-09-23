@@ -6,5 +6,5 @@ export const metadata: Metadata = {
 };
 
 export default function OverlookLayout({ children }: LayoutProps<"/overlook">) {
-  return children;
+  return <div className="overlook-theme min-h-full">{children}</div>;
 }

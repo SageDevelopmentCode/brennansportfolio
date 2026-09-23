@@ -216,7 +216,6 @@ export function EventList({
                     rsvps={rsvpsByEventId[event.id] ?? []}
                     canRsvp={!canManage}
                     isHost={isHost}
-                    isLoggedIn={isLoggedIn}
                     onRsvpAdded={(rsvp) => onRsvpAdded?.(rsvp)}
                   />
                 </div>

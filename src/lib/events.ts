@@ -128,7 +128,7 @@ export function formatSupabaseError(error: { message: string; code?: string }): 
     message.includes("permission denied") ||
     message.includes("violates row-level security")
   ) {
-    return "You don't have permission to do that. Try logging in again.";
+    return "You don't have permission to RSVP to this event.";
   }
 
   if (message.includes("guest_count") && message.includes("check")) {

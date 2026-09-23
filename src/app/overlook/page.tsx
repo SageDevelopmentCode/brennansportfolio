@@ -67,19 +67,6 @@ export default async function OverlookPage() {
 
   return (
     <main className="relative flex flex-1 flex-col items-center gap-8 overflow-hidden px-4 py-6 sm:py-10">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -left-16 top-10 h-40 w-40 rounded-full bg-accent-coral/25 blur-3xl"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -right-10 top-32 h-48 w-48 rounded-full bg-accent-purple/20 blur-3xl"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute bottom-20 left-1/3 h-36 w-36 rounded-full bg-accent-sun/25 blur-3xl"
-      />
-
       <Link
         href="/"
         className="relative z-10 self-start text-sm font-medium text-foreground/60 transition hover:text-accent-purple"

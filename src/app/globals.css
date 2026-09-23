@@ -886,6 +886,14 @@ body:has(.hub-theme) header nav a[href="/signup"] {
     0 16px 40px rgba(245, 158, 11, 0.15);
 }
 
+.overlook-theme {
+  --overlook-bg: #fff8f0;
+  color-scheme: light;
+  background-color: var(--overlook-bg);
+  color: var(--foreground);
+  min-height: 100%;
+}
+
 .overlook-stat-card {
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }

@@ -9,7 +9,6 @@ import {
   formatSupabaseError,
   MAX_GUEST_COUNT,
 } from "@/lib/events";
-import Link from "next/link";
 import { FormEvent, useState } from "react";
 
 type EventRsvpProps = {
@@ -17,7 +16,6 @@ type EventRsvpProps = {
   rsvps: Rsvp[];
   canRsvp?: boolean;
   isHost?: boolean;
-  isLoggedIn: boolean;
   onRsvpAdded: (rsvp: Rsvp) => void;
 };
 
@@ -26,7 +24,6 @@ export function EventRsvp({
   rsvps,
   canRsvp = true,
   isHost = false,
-  isLoggedIn,
   onRsvpAdded,
 }: EventRsvpProps) {
   const [name, setName] = useState("");
@@ -74,21 +71,32 @@ export function EventRsvp({
 
     setLoading(true);
     const supabase = createClient();
-    const { data, error: insertError } = await supabase
-      .from("rsvps")
-      .insert({
-        event_id: eventId,
-        person,
-        address: trimmedAddress,
-        guest_count: parsedGuestCount,
-      })
-      .select("id, event_id, person, address, guest_count, created_at")
+    const { error: insertError } = await supabase.from("rsvps").insert({
+      event_id: eventId,
+      person,
+      address: trimmedAddress,
+      guest_count: parsedGuestCount,
+    });
+
+    if (insertError) {
+      setLoading(false);
+      setError(formatSupabaseError(insertError));
+      return;
+    }
+
+    const { data, error: fetchError } = await supabase
+      .from("rsvp_public")
+      .select("id, event_id, person, guest_count, created_at")
+      .eq("event_id", eventId)
+      .eq("person", person)
+      .order("created_at", { ascending: false })
+      .limit(1)
       .single();
 
     setLoading(false);
 
-    if (insertError) {
-      setError(formatSupabaseError(insertError));
+    if (fetchError) {
+      setError(formatSupabaseError(fetchError));
       return;
     }
 
@@ -129,7 +137,7 @@ export function EventRsvp({
         </ul>
       )}
 
-      {canRsvp && isLoggedIn ? (
+      {canRsvp ? (
         <form onSubmit={handleSubmit} className="mt-3 flex flex-col gap-2">
           <label className="flex flex-col gap-1 text-sm font-medium text-foreground/80">
             Your name
@@ -176,23 +184,13 @@ export function EventRsvp({
             {loading ? "Saving..." : "RSVP"}
           </button>
         </form>
-      ) : canRsvp && !isLoggedIn ? (
-        <p className="mt-3 text-sm text-foreground/60">
-          <Link
-            href="/login?redirect=/overlook"
-            className="font-semibold text-accent-purple transition hover:underline"
-          >
-            Log in
-          </Link>{" "}
-          to RSVP to this event.
-        </p>
       ) : (
         <p className="mt-3 text-sm text-foreground/60">
           You&apos;re hosting this event — neighbor RSVPs will appear here.
         </p>
       )}
 
-      {canRsvp && isLoggedIn && error && (
+      {canRsvp && error && (
         <p className="mt-2 text-sm text-red-600" role="alert">
           {error}
         </p>
