@@ -1,0 +1,48 @@
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791233292964,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791233293056,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-denial-story.tsx:startStory","message":"user tapped start story","data":{"familyName":"x"},"timestamp":1791233307235,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-denial-story.tsx:useEffect:run","message":"story effect started","data":{"storyStarted":true},"timestamp":1791233307238,"hypothesisId":"B"}
+{"sessionId":"503e96","location":"gym-denial-story.tsx:skipDuplicateSpeak","message":"skipped beat speak (started from tap)","data":{"beatIndex":1},"timestamp":1791233307240,"hypothesisId":"F","runId":"post-fix"}
+{"sessionId":"503e96","location":"gym-denial-story.tsx:beforeSpeak","message":"about to speak beat","data":{"beatIndex":2,"abort":false,"lineLen":130},"timestamp":1791233309442,"hypothesisId":"B,C"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:speakLennyLine:entry","message":"speakLennyLine called","data":{"hasSynth":true,"primedFromGesture":true,"textLen":130,"voiceCount":199,"paused":false},"timestamp":1791233309443,"hypothesisId":"A,C"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:speakOneChunk:speak","message":"calling synth.speak","data":{"session":2,"activeSession":2,"skipLeadIn":true,"textLen":84},"timestamp":1791233309444,"hypothesisId":"F","runId":"post-fix"}
+{"sessionId":"503e96","location":"gym-denial-story.tsx:useEffect:cleanup","message":"story effect cleanup","data":{"storyStarted":true},"timestamp":1791233312625,"hypothesisId":"B"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:speakOneChunk:watchdog","message":"utterance watchdog fired","data":{"session":2,"activeSession":3,"started":false,"skipLeadIn":true},"timestamp":1791233321973,"hypothesisId":"D","runId":"post-fix"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791233358447,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791233930897,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791233930962,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791233935095,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791233935219,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791233939462,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791233942823,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791233942940,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791233957973,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791233958048,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791234021440,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791234021533,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791234045561,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791234051379,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791234380871,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791234380953,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791234385675,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791234385749,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791234404720,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791234404786,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791234837688,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791234837772,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791234854512,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791234854639,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791234875412,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791234875504,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791235447203,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791235447270,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791235451019,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791235451137,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791235466373,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791235466432,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791235596897,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791235598796,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791236263322,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791236274198,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791236281696,"hypothesisId":"A"}
+{"sessionId":"503e96","location":"gym-lenny-speech.ts:primeLennySpeechFromUserGesture","message":"prime called","data":{"hasSynth":true,"paused":false},"timestamp":1791236285759,"hypothesisId":"A"}

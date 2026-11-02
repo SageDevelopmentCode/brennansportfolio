@@ -1,624 +1,391 @@
 export const HIGH_SCORE_STORAGE_KEY = "egg-whack-high-score";
 
-export const WIN_SCORE = 100;
-export const MAX_HEALTH = 7;
-export const EGG_DAMAGE = 0.5;
-export const SPIKE_DAMAGE = 1;
-export const CHICKEN_DAMAGE = 2;
-export const HEART_HEAL = 1;
+export const HUNGER_MAX = 100;
+export const HUNGER_DRAIN_BASE = 4.5;
+export const HUNGER_DRAIN_SPEED_SCALE = 0.08;
+export const BANANA_HUNGER = 14;
+export const GOLDEN_BANANA_HUNGER = 28;
+export const NORMAL_BANANA_SCORE = 1;
+export const GOLDEN_BANANA_SCORE = 3;
 
-export const PLAYER_WIDTH = 52;
-export const PLAYER_HEIGHT = 64;
-export const PLAYER_HIT_RADIUS = 22;
-export const PLAYER_SPEED = 300;
-export const PLAYER_BOTTOM_OFFSET = 48;
+export const LANE_WIDTH = 1.4;
+export type Lane = -1 | 0 | 1;
 
-export const SPATULA_SWING_MS = 220;
-export const SPATULA_HIT_WIDTH = 70;
-export const SPATULA_HIT_HEIGHT = 50;
+export const PLAYER_COLLIDE_Z = 0.85;
+export const COLLIDE_Z_MIN = -0.35;
+export const SPAWN_Z_MIN = -48;
+export const SPAWN_Z_MAX = -32;
+export const DESPAWN_Z = 4;
 
-export const EGG_MIN_RADIUS = 16;
-export const EGG_MAX_RADIUS = 24;
-export const EGG_BASE_SPEED = 90;
-export const SPIKE_WIDTH = 28;
-export const SPIKE_HEIGHT = 36;
-export const SPIKE_BASE_SPEED = 310;
+export const BASE_SCROLL = 9;
+export const SCROLL_RAMP = 0.018;
 
-export const EGG_SPAWN_START_MS = 650;
-export const EGG_SPAWN_MIN_MS = 380;
-export const EGG_SPAWN_RAMP_MS = 30;
-export const SPIKE_SPAWN_START_MS = 2500;
-export const SPIKE_SPAWN_MIN_MS = 1200;
-export const SPIKE_SPAWN_RAMP_MS = 50;
+export const LANE_CHANGE_COOLDOWN_MS = 150;
 
-export const BLOB_RADIUS = 24;
-export const BLOB_SPEED = 95;
-export const BLOB_SPAWN_START_MS = 5000;
-export const BLOB_SPAWN_MIN_MS = 2800;
-export const BLOB_SPAWN_RAMP_MS = 40;
+export const JUMP_VELOCITY = 5.8;
+export const GRAVITY = 20;
+export const JUMP_CLEAR_Y = 0.52;
+export const JUMP_COOLDOWN_MS = 120;
 
-export const HEART_RADIUS = 16;
-export const HEART_FALL_SPEED = 65;
-export const HEART_SPAWN_INTERVAL_MS = 16000;
+export const BANANA_SPAWN_START_MS = 650;
+export const BANANA_SPAWN_MIN_MS = 380;
+export const BANANA_SPAWN_RAMP_MS = 26;
 
-export const CHICKEN_RADIUS = 20;
-export const CHICKEN_SPEED = 130;
-export const CHICKEN_SPAWN_START_MS = 3500;
-export const CHICKEN_SPAWN_MIN_MS = 1800;
-export const CHICKEN_SPAWN_RAMP_MS = 35;
+export const OBSTACLE_SPAWN_START_MS = 2000;
+export const OBSTACLE_SPAWN_MIN_MS = 850;
+export const OBSTACLE_SPAWN_RAMP_MS = 48;
 
-export type Egg = {
+export const LANE_BLOCKER_MIN_Z_GAP = 5.5;
+
+export type BananaKind = "normal" | "golden";
+
+export type Banana = {
   id: string;
-  x: number;
-  y: number;
-  radius: number;
-  vy: number;
+  lane: Lane;
+  z: number;
+  kind: BananaKind;
 };
 
-export type Spike = {
+export type ObstacleKind = "lane" | "low";
+
+export type Obstacle = {
   id: string;
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  vy: number;
+  lane: Lane;
+  z: number;
+  kind: ObstacleKind;
 };
 
-export type Blob = {
-  id: string;
-  x: number;
-  y: number;
-  radius: number;
-  wobblePhase: number;
-};
-
-export type HeartPickup = {
-  id: string;
-  x: number;
-  y: number;
-  radius: number;
-  vy: number;
-};
-
-export type Chicken = {
-  id: string;
-  x: number;
-  y: number;
-  vx: number;
-  facing: 1 | -1;
-  flapPhase: number;
-};
+export type GameOverReason = "crash" | "starve";
 
 export type TickEvents = {
-  blobsKilled: number;
+  bananasCollected: number;
+  goldenBananasCollected: number;
+  crashed: boolean;
 };
 
 export type EggGameState = {
-  playerX: number;
-  eggs: Egg[];
-  spikes: Spike[];
-  blobs: Blob[];
-  hearts: HeartPickup[];
-  chickens: Chicken[];
+  playerLane: Lane;
+  laneChangeCooldownUntil: number;
+  playerY: number;
+  playerVy: number;
+  jumpCooldownUntil: number;
+  bananas: Banana[];
+  obstacles: Obstacle[];
   score: number;
-  health: number;
-  swingUntil: number;
+  hunger: number;
   gameOver: boolean;
-  won: boolean;
+  gameOverReason: GameOverReason | null;
   elapsed: number;
-  lastEggSpawnAt: number;
-  lastSpikeSpawnAt: number;
-  lastBlobSpawnAt: number;
-  lastHeartSpawnAt: number;
-  lastChickenSpawnAt: number;
+  lastBananaSpawnAt: number;
+  lastObstacleSpawnAt: number;
 };
 
 let idCounter = 0;
 
 function nextId(): string {
   idCounter += 1;
-  return `egg-${idCounter}`;
+  return `run-${idCounter}`;
 }
 
-export function getPlayerY(height: number): number {
-  return height - PLAYER_BOTTOM_OFFSET - PLAYER_HEIGHT;
+function rollBananaKind(): BananaKind {
+  return Math.random() < 0.12 ? "golden" : "normal";
 }
 
-export function createInitialState(width: number): EggGameState {
+function randomLane(): Lane {
+  const lanes: Lane[] = [-1, 0, 1];
+  return lanes[Math.floor(Math.random() * 3)]!;
+}
+
+function randomSpawnZ(): number {
+  return SPAWN_Z_MIN + Math.random() * (SPAWN_Z_MAX - SPAWN_Z_MIN);
+}
+
+function rollObstacleKind(): ObstacleKind {
+  return Math.random() < 0.55 ? "lane" : "low";
+}
+
+export function laneToX(lane: Lane): number {
+  return lane * LANE_WIDTH;
+}
+
+export function getScrollSpeed(elapsed: number): number {
+  return BASE_SCROLL * (1 + elapsed * SCROLL_RAMP);
+}
+
+export function getDifficultyTier(elapsed: number): number {
+  return Math.min(5, 1 + Math.floor(elapsed / 30));
+}
+
+const DIFFICULTY_LABELS = ["Trek", "Sprint", "Canopy", "Rush", "Frenzy"];
+
+export function getDifficultyLabel(elapsed: number): string {
+  const tier = getDifficultyTier(elapsed);
+  return DIFFICULTY_LABELS[tier - 1] ?? "Frenzy";
+}
+
+export function getMaxObstacles(elapsed: number): number {
+  return Math.min(7, 2 + Math.floor(elapsed / 22));
+}
+
+export function createInitialState(): EggGameState {
   return {
-    playerX: width / 2,
-    eggs: [],
-    spikes: [],
-    blobs: [],
-    hearts: [],
-    chickens: [],
+    playerLane: 0,
+    laneChangeCooldownUntil: 0,
+    playerY: 0,
+    playerVy: 0,
+    jumpCooldownUntil: 0,
+    bananas: [],
+    obstacles: [],
     score: 0,
-    health: MAX_HEALTH,
-    swingUntil: 0,
+    hunger: HUNGER_MAX,
     gameOver: false,
-    won: false,
+    gameOverReason: null,
     elapsed: 0,
-    lastEggSpawnAt: 0,
-    lastSpikeSpawnAt: 0,
-    lastBlobSpawnAt: 0,
-    lastHeartSpawnAt: 0,
-    lastChickenSpawnAt: 0,
+    lastBananaSpawnAt: 0,
+    lastObstacleSpawnAt: 0,
   };
 }
 
-function circleCollision(
-  ax: number,
-  ay: number,
-  ar: number,
-  bx: number,
-  by: number,
-  br: number
-): boolean {
-  const dx = ax - bx;
-  const dy = ay - by;
-  return Math.hypot(dx, dy) < ar + br;
+function getBananaSpawnInterval(elapsed: number): number {
+  const reduced = BANANA_SPAWN_START_MS - elapsed * BANANA_SPAWN_RAMP_MS;
+  return Math.max(BANANA_SPAWN_MIN_MS, reduced);
 }
 
-function circleRectCollision(
-  cx: number,
-  cy: number,
-  radius: number,
-  rx: number,
-  ry: number,
-  rw: number,
-  rh: number
-): boolean {
-  const closestX = Math.max(rx, Math.min(cx, rx + rw));
-  const closestY = Math.max(ry, Math.min(cy, ry + rh));
-  const dx = cx - closestX;
-  const dy = cy - closestY;
-  return dx * dx + dy * dy < radius * radius;
+function getObstacleSpawnInterval(elapsed: number): number {
+  let interval = OBSTACLE_SPAWN_START_MS - elapsed * OBSTACLE_SPAWN_RAMP_MS;
+  if (elapsed > 60) interval *= 0.7;
+  else if (elapsed > 30) interval *= 0.85;
+  return Math.max(OBSTACLE_SPAWN_MIN_MS, interval);
 }
 
-function getSpatulaHitbox(
-  playerX: number,
-  height: number
-): { x: number; y: number; w: number; h: number } {
-  const playerY = getPlayerY(height);
-  return {
-    x: playerX - SPATULA_HIT_WIDTH / 2,
-    y: playerY - SPATULA_HIT_HEIGHT,
-    w: SPATULA_HIT_WIDTH,
-    h: SPATULA_HIT_HEIGHT,
-  };
-}
-
-function spawnEgg(width: number): Egg {
-  const radius =
-    EGG_MIN_RADIUS + Math.random() * (EGG_MAX_RADIUS - EGG_MIN_RADIUS);
-  const padding = radius + 8;
-  const x = padding + Math.random() * (width - padding * 2);
-
+function spawnBanana(): Banana {
   return {
     id: nextId(),
-    x,
-    y: -radius * 2,
-    radius,
-    vy: EGG_BASE_SPEED + Math.random() * 40,
+    lane: randomLane(),
+    z: randomSpawnZ(),
+    kind: rollBananaKind(),
   };
 }
 
-function spawnSpike(width: number): Spike {
-  const padding = SPIKE_WIDTH / 2 + 8;
-  const x = padding + Math.random() * (width - padding * 2);
-
+function spawnObstacle(kind: ObstacleKind): Obstacle {
   return {
     id: nextId(),
-    x,
-    y: -SPIKE_HEIGHT,
-    width: SPIKE_WIDTH,
-    height: SPIKE_HEIGHT,
-    vy: SPIKE_BASE_SPEED + Math.random() * 80,
+    lane: randomLane(),
+    z: randomSpawnZ(),
+    kind,
   };
 }
 
-function spawnBlob(width: number, height: number): Blob {
-  const fromLeft = Math.random() < 0.5;
-  const x = fromLeft ? -BLOB_RADIUS : width + BLOB_RADIUS;
-  const y = height * 0.25 + Math.random() * height * 0.45;
-
-  return {
-    id: nextId(),
-    x,
-    y,
-    radius: BLOB_RADIUS,
-    wobblePhase: Math.random() * Math.PI * 2,
-  };
+function sameLane(a: Lane, b: Lane): boolean {
+  return a === b;
 }
 
-function findNearestEgg(blob: Blob, eggs: Egg[]): Egg | null {
-  if (eggs.length === 0) return null;
+function inPlayerCollideZ(z: number): boolean {
+  return z >= COLLIDE_Z_MIN && z <= PLAYER_COLLIDE_Z;
+}
 
-  let nearest: Egg | null = null;
-  let nearestDist = Infinity;
+function hungerDrainPerSecond(elapsed: number): number {
+  const speed = getScrollSpeed(elapsed);
+  return HUNGER_DRAIN_BASE + speed * HUNGER_DRAIN_SPEED_SCALE;
+}
 
-  for (const egg of eggs) {
-    const dist = Math.hypot(egg.x - blob.x, egg.y - blob.y);
-    if (dist < nearestDist) {
-      nearestDist = dist;
-      nearest = egg;
+function pickLaneForBlocker(obstacles: Obstacle[]): Lane {
+  const recentLaneBlockers = obstacles.filter(
+    (o) => o.kind === "lane" && o.z > SPAWN_Z_MIN + 8
+  );
+  if (recentLaneBlockers.length === 0) return randomLane();
+
+  const blocked = new Set(recentLaneBlockers.map((o) => o.lane));
+  const open: Lane[] = [-1, 0, 1].filter((l) => !blocked.has(l as Lane)) as Lane[];
+  if (open.length > 0) {
+    return open[Math.floor(Math.random() * open.length)]!;
+  }
+  return randomLane();
+}
+
+function wouldBlockAllLanes(obstacles: Obstacle[], candidate: Obstacle): boolean {
+  const windowMin = candidate.z - LANE_BLOCKER_MIN_Z_GAP;
+  const windowMax = candidate.z + LANE_BLOCKER_MIN_Z_GAP;
+  const lanesBlocked = new Set<Lane>();
+  for (const o of obstacles) {
+    if (o.kind !== "lane") continue;
+    if (o.z >= windowMin && o.z <= windowMax) {
+      lanesBlocked.add(o.lane);
     }
   }
-
-  return nearest;
+  lanesBlocked.add(candidate.lane);
+  return lanesBlocked.size >= 3;
 }
 
-function getEggSpawnInterval(elapsed: number): number {
-  const reduced = EGG_SPAWN_START_MS - elapsed * EGG_SPAWN_RAMP_MS;
-  return Math.max(EGG_SPAWN_MIN_MS, reduced);
-}
-
-function getSpikeSpawnInterval(elapsed: number): number {
-  const reduced = SPIKE_SPAWN_START_MS - elapsed * SPIKE_SPAWN_RAMP_MS;
-  return Math.max(SPIKE_SPAWN_MIN_MS, reduced);
-}
-
-function getBlobSpawnInterval(elapsed: number): number {
-  const reduced = BLOB_SPAWN_START_MS - elapsed * BLOB_SPAWN_RAMP_MS;
-  return Math.max(BLOB_SPAWN_MIN_MS, reduced);
-}
-
-function spawnHeart(width: number): HeartPickup {
-  const padding = HEART_RADIUS + 12;
-  const x = padding + Math.random() * (width - padding * 2);
-  return {
-    id: nextId(),
-    x,
-    y: -HEART_RADIUS * 2,
-    radius: HEART_RADIUS,
-    vy: HEART_FALL_SPEED,
-  };
-}
-
-function spawnChicken(width: number, height: number): Chicken {
-  const fromLeft = Math.random() < 0.5;
-  const y = height * 0.35 + Math.random() * (height * 0.45);
-  return {
-    id: nextId(),
-    x: fromLeft ? CHICKEN_RADIUS + 10 : width - CHICKEN_RADIUS - 10,
-    y,
-    vx: fromLeft ? CHICKEN_SPEED : -CHICKEN_SPEED,
-    facing: fromLeft ? 1 : -1,
-    flapPhase: Math.random() * Math.PI * 2,
-  };
-}
-
-function getChickenSpawnInterval(elapsed: number): number {
-  const reduced = CHICKEN_SPAWN_START_MS - elapsed * CHICKEN_SPAWN_RAMP_MS;
-  return Math.max(CHICKEN_SPAWN_MIN_MS, reduced);
-}
-
-export function movePlayer(
+export function tryChangeLane(
   state: EggGameState,
-  dx: number,
-  width: number
+  direction: -1 | 1,
+  nowMs: number
 ): EggGameState {
-  const half = PLAYER_WIDTH / 2;
-  const minX = half + 8;
-  const maxX = width - half - 8;
-  const playerX = Math.max(minX, Math.min(maxX, state.playerX + dx));
-
-  return { ...state, playerX };
+  if (nowMs < state.laneChangeCooldownUntil) return state;
+  const next = (state.playerLane + direction) as number;
+  if (next < -1 || next > 1) return state;
+  return {
+    ...state,
+    playerLane: next as Lane,
+    laneChangeCooldownUntil: nowMs + LANE_CHANGE_COOLDOWN_MS,
+  };
 }
 
-export function startSwing(state: EggGameState, now: number): EggGameState {
-  if (now < state.swingUntil) return state;
-  return { ...state, swingUntil: now + SPATULA_SWING_MS };
-}
-
-export function isSwinging(state: EggGameState, now: number): boolean {
-  return now < state.swingUntil;
+export function tryJump(state: EggGameState, nowMs: number): EggGameState {
+  if (nowMs < state.jumpCooldownUntil) return state;
+  if (state.playerY > 0.02 || state.playerVy > 0.1) return state;
+  return {
+    ...state,
+    playerVy: JUMP_VELOCITY,
+    jumpCooldownUntil: nowMs + JUMP_COOLDOWN_MS,
+  };
 }
 
 export function tick(
   state: EggGameState,
   dt: number,
-  now: number,
-  width: number,
-  height: number
+  _now: number
 ): { state: EggGameState; events: TickEvents } {
-  if (state.gameOver || state.won) {
-    return { state, events: { blobsKilled: 0 } };
+  const emptyEvents: TickEvents = {
+    bananasCollected: 0,
+    goldenBananasCollected: 0,
+    crashed: false,
+  };
+
+  if (state.gameOver) {
+    return { state, events: emptyEvents };
   }
 
   const elapsed = state.elapsed + dt;
   const elapsedMs = elapsed * 1000;
-  const speedMultiplier = 1 + elapsed * 0.01;
+  const scrollSpeed = getScrollSpeed(elapsed);
+  const dz = scrollSpeed * dt;
 
-  let eggs = state.eggs.map((egg) => ({
-    ...egg,
-    y: egg.y + egg.vy * speedMultiplier * dt,
-  }));
+  let playerY = state.playerY;
+  let playerVy = state.playerVy;
+  playerVy -= GRAVITY * dt;
+  playerY += playerVy * dt;
+  if (playerY <= 0) {
+    playerY = 0;
+    playerVy = 0;
+  }
 
-  let spikes = state.spikes.map((spike) => ({
-    ...spike,
-    y: spike.y + spike.vy * speedMultiplier * dt,
-  }));
+  let bananas = state.bananas.map((b) => ({ ...b, z: b.z + dz }));
+  let obstacles = state.obstacles.map((o) => ({ ...o, z: o.z + dz }));
 
-  let blobs = state.blobs.map((blob) => {
-    const target = findNearestEgg(blob, eggs);
-    if (!target) return blob;
+  const removedBananaIds = new Set<string>();
 
-    const dx = target.x - blob.x;
-    const dy = target.y - blob.y;
-    const dist = Math.hypot(dx, dy) || 1;
-    const speed = BLOB_SPEED * speedMultiplier;
-    return {
-      ...blob,
-      x: blob.x + (dx / dist) * speed * dt,
-      y: blob.y + (dy / dist) * speed * dt,
-    };
-  });
-
-  let hearts = state.hearts.map((heart) => ({
-    ...heart,
-    y: heart.y + heart.vy * dt,
-  }));
-
-  let chickens = state.chickens.map((chicken) => {
-    let x = chicken.x + chicken.vx * speedMultiplier * dt;
-    let vx = chicken.vx;
-    let facing = chicken.facing;
-    const margin = CHICKEN_RADIUS + 8;
-
-    if (x < margin) {
-      x = margin;
-      vx = Math.abs(vx);
-      facing = 1;
-    } else if (x > width - margin) {
-      x = width - margin;
-      vx = -Math.abs(vx);
-      facing = -1;
-    }
-
-    return {
-      ...chicken,
-      x,
-      vx,
-      facing,
-      flapPhase: chicken.flapPhase + dt * 12,
-    };
-  });
-
-  const removedEggIds = new Set<string>();
-  const removedSpikeIds = new Set<string>();
-  const removedBlobIds = new Set<string>();
-  const removedHeartIds = new Set<string>();
-  const removedChickenIds = new Set<string>();
-  let blobsKilled = 0;
+  let bananasCollected = 0;
+  let goldenBananasCollected = 0;
   let score = state.score;
-  let health = state.health;
+  let hunger = state.hunger - hungerDrainPerSecond(elapsed) * dt;
+  let gameOverReason = state.gameOverReason;
+  let crashed = false;
 
-  if (isSwinging(state, now)) {
-    const hitbox = getSpatulaHitbox(state.playerX, height);
-    for (const egg of eggs) {
-      if (removedEggIds.has(egg.id)) continue;
-      if (
-        circleRectCollision(
-          egg.x,
-          egg.y,
-          egg.radius,
-          hitbox.x,
-          hitbox.y,
-          hitbox.w,
-          hitbox.h
-        )
-      ) {
-        removedEggIds.add(egg.id);
-        score += 1;
-      }
-    }
-
-    for (const blob of blobs) {
-      if (removedBlobIds.has(blob.id)) continue;
-      if (
-        circleRectCollision(
-          blob.x,
-          blob.y,
-          blob.radius,
-          hitbox.x,
-          hitbox.y,
-          hitbox.w,
-          hitbox.h
-        )
-      ) {
-        removedBlobIds.add(blob.id);
-        blobsKilled += 1;
-      }
-    }
-
-    for (const chicken of chickens) {
-      if (removedChickenIds.has(chicken.id)) continue;
-      if (
-        circleRectCollision(
-          chicken.x,
-          chicken.y,
-          CHICKEN_RADIUS,
-          hitbox.x,
-          hitbox.y,
-          hitbox.w,
-          hitbox.h
-        )
-      ) {
-        removedChickenIds.add(chicken.id);
+  for (const banana of bananas) {
+    if (removedBananaIds.has(banana.id)) continue;
+    if (
+      sameLane(banana.lane, state.playerLane) &&
+      inPlayerCollideZ(banana.z)
+    ) {
+      removedBananaIds.add(banana.id);
+      if (banana.kind === "golden") {
+        score += GOLDEN_BANANA_SCORE;
+        hunger = Math.min(HUNGER_MAX, hunger + GOLDEN_BANANA_HUNGER);
+        goldenBananasCollected += 1;
+      } else {
+        score += NORMAL_BANANA_SCORE;
+        hunger = Math.min(HUNGER_MAX, hunger + BANANA_HUNGER);
+        bananasCollected += 1;
       }
     }
   }
 
-  const playerCenterY = getPlayerY(height) + PLAYER_HEIGHT / 2;
+  for (const obstacle of obstacles) {
+    if (!sameLane(obstacle.lane, state.playerLane)) continue;
+    if (!inPlayerCollideZ(obstacle.z)) continue;
 
-  for (const egg of eggs) {
-    if (removedEggIds.has(egg.id)) continue;
-    if (
-      circleCollision(
-        state.playerX,
-        playerCenterY,
-        PLAYER_HIT_RADIUS,
-        egg.x,
-        egg.y,
-        egg.radius
-      )
-    ) {
-      removedEggIds.add(egg.id);
-      health = Math.max(0, health - EGG_DAMAGE);
+    if (obstacle.kind === "lane") {
+      crashed = true;
+      gameOverReason = "crash";
+      break;
+    }
+    if (obstacle.kind === "low" && playerY < JUMP_CLEAR_Y) {
+      crashed = true;
+      gameOverReason = "crash";
+      break;
     }
   }
 
-  for (const spike of spikes) {
-    const spikeCenterX = spike.x;
-    const spikeCenterY = spike.y + spike.height / 2;
-    const spikeRadius = Math.max(spike.width, spike.height) / 2;
-    if (
-      circleCollision(
-        state.playerX,
-        playerCenterY,
-        PLAYER_HIT_RADIUS,
-        spikeCenterX,
-        spikeCenterY,
-        spikeRadius
-      )
-    ) {
-      removedSpikeIds.add(spike.id);
-      health = Math.max(0, health - SPIKE_DAMAGE);
+  bananas = bananas.filter((b) => !removedBananaIds.has(b.id) && b.z < DESPAWN_Z);
+  obstacles = obstacles.filter((o) => o.z < DESPAWN_Z);
+
+  let lastBananaSpawnAt = state.lastBananaSpawnAt;
+  let lastObstacleSpawnAt = state.lastObstacleSpawnAt;
+
+  if (elapsedMs - lastBananaSpawnAt >= getBananaSpawnInterval(elapsed)) {
+    bananas = [...bananas, spawnBanana()];
+    if (Math.random() < 0.35) {
+      bananas = [...bananas, spawnBanana()];
     }
+    lastBananaSpawnAt = elapsedMs;
   }
 
-  for (const blob of blobs) {
-    if (removedBlobIds.has(blob.id)) continue;
-
-    for (const egg of eggs) {
-      if (removedEggIds.has(egg.id)) continue;
-      if (
-        circleCollision(blob.x, blob.y, blob.radius, egg.x, egg.y, egg.radius)
-      ) {
-        removedEggIds.add(egg.id);
-        break;
-      }
-    }
-  }
-
-  for (const heart of hearts) {
-    if (removedHeartIds.has(heart.id)) continue;
-    if (
-      circleCollision(
-        state.playerX,
-        playerCenterY,
-        PLAYER_HIT_RADIUS,
-        heart.x,
-        heart.y,
-        heart.radius
-      )
-    ) {
-      removedHeartIds.add(heart.id);
-      health = Math.min(MAX_HEALTH, health + HEART_HEAL);
-    }
-  }
-
-  for (const chicken of chickens) {
-    if (removedChickenIds.has(chicken.id)) continue;
-    if (
-      circleCollision(
-        state.playerX,
-        playerCenterY,
-        PLAYER_HIT_RADIUS,
-        chicken.x,
-        chicken.y,
-        CHICKEN_RADIUS
-      )
-    ) {
-      removedChickenIds.add(chicken.id);
-      health = Math.max(0, health - CHICKEN_DAMAGE);
-    }
-  }
-
-  eggs = eggs.filter(
-    (e) =>
-      !removedEggIds.has(e.id) && e.y - e.radius < height + 40
-  );
-  spikes = spikes.filter(
-    (s) => !removedSpikeIds.has(s.id) && s.y < height + 40
-  );
-  blobs = blobs.filter(
-    (b) =>
-      !removedBlobIds.has(b.id) &&
-      b.x > -b.radius - 20 &&
-      b.x < width + b.radius + 20 &&
-      b.y > -b.radius - 20 &&
-      b.y < height + b.radius + 20
-  );
-  hearts = hearts.filter(
-    (h) => !removedHeartIds.has(h.id) && h.y - h.radius < height + 40
-  );
-  chickens = chickens.filter((c) => !removedChickenIds.has(c.id));
-
-  let lastEggSpawnAt = state.lastEggSpawnAt;
-  let lastSpikeSpawnAt = state.lastSpikeSpawnAt;
-  let lastBlobSpawnAt = state.lastBlobSpawnAt;
-  let lastHeartSpawnAt = state.lastHeartSpawnAt;
-  let lastChickenSpawnAt = state.lastChickenSpawnAt;
-
-  if (elapsedMs - lastEggSpawnAt >= getEggSpawnInterval(elapsed)) {
-    eggs = [...eggs, spawnEgg(width)];
-    lastEggSpawnAt = elapsedMs;
-  }
-
-  if (elapsedMs - lastSpikeSpawnAt >= getSpikeSpawnInterval(elapsed)) {
-    spikes = [...spikes, spawnSpike(width)];
-    lastSpikeSpawnAt = elapsedMs;
-  }
-
-  if (elapsedMs - lastBlobSpawnAt >= getBlobSpawnInterval(elapsed)) {
-    blobs = [...blobs, spawnBlob(width, height)];
-    lastBlobSpawnAt = elapsedMs;
-  }
-
+  const maxObstacles = getMaxObstacles(elapsed);
   if (
-    health < MAX_HEALTH &&
-    elapsedMs - lastHeartSpawnAt >= HEART_SPAWN_INTERVAL_MS
+    !crashed &&
+    obstacles.length < maxObstacles &&
+    elapsedMs - lastObstacleSpawnAt >= getObstacleSpawnInterval(elapsed)
   ) {
-    hearts = [...hearts, spawnHeart(width)];
-    lastHeartSpawnAt = elapsedMs;
-  }
+    const kind = rollObstacleKind();
+    let candidate =
+      kind === "lane"
+        ? { ...spawnObstacle("lane"), lane: pickLaneForBlocker(obstacles) }
+        : spawnObstacle("low");
 
-  if (
-    chickens.length < 8 &&
-    elapsedMs - lastChickenSpawnAt >= getChickenSpawnInterval(elapsed)
-  ) {
-    chickens = [...chickens, spawnChicken(width, height)];
-    if (chickens.length < 7 && Math.random() < 0.4) {
-      chickens = [...chickens, spawnChicken(width, height)];
+    if (candidate.kind === "lane" && wouldBlockAllLanes(obstacles, candidate)) {
+      const altLane = ([-1, 0, 1] as Lane[]).find((l) => l !== candidate.lane);
+      if (altLane !== undefined) {
+        candidate = { ...candidate, lane: altLane };
+      }
     }
-    lastChickenSpawnAt = elapsedMs;
+
+    if (
+      candidate.kind !== "lane" ||
+      !wouldBlockAllLanes(obstacles, candidate)
+    ) {
+      obstacles = [...obstacles, candidate];
+    }
+    lastObstacleSpawnAt = elapsedMs;
   }
 
-  const won = score >= WIN_SCORE;
-  const gameOver = health <= 0;
+  if (!crashed && hunger <= 0) {
+    gameOverReason = "starve";
+  }
+
+  const gameOver = crashed || hunger <= 0;
 
   return {
     state: {
       ...state,
-      eggs,
-      spikes,
-      blobs,
-      hearts,
-      chickens,
+      playerY,
+      playerVy,
+      bananas,
+      obstacles,
       score,
-      health,
-      won,
+      hunger: Math.max(0, hunger),
       gameOver,
+      gameOverReason,
       elapsed,
-      lastEggSpawnAt,
-      lastSpikeSpawnAt,
-      lastBlobSpawnAt,
-      lastHeartSpawnAt,
-      lastChickenSpawnAt,
+      lastBananaSpawnAt,
+      lastObstacleSpawnAt,
     },
-    events: { blobsKilled },
+    events: {
+      bananasCollected,
+      goldenBananasCollected,
+      crashed,
+    },
   };
 }
 

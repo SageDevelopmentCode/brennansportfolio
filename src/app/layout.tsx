@@ -1,4 +1,4 @@
-import { AuthNav } from "@/components/auth-nav";
+import { PathAwareHeader } from "@/components/path-aware-header";
 import type { Metadata, Viewport } from "next";
 import { Fredoka, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -36,9 +36,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} ${fredoka.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans">
-        <header className="relative z-20 flex justify-end px-4 pb-4 pt-[max(1rem,env(safe-area-inset-top))] sm:px-6">
-          <AuthNav />
-        </header>
+        <PathAwareHeader />
         {children}
       </body>
     </html>

@@ -1,0 +1,161 @@
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"PEP","barCount":1255},"timestamp":1790803008127}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"SPY","barCount":1255},"timestamp":1790803014628}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"GM","barCount":1255},"timestamp":1790803020505}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"GM","barCount":1255},"timestamp":1790803025880}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"COST","barCount":1255},"timestamp":1790803046621}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"KO","barCount":1255},"timestamp":1790803069668}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"NFLX","barCount":1255},"timestamp":1790803082006}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"AAPL","barCount":1255},"timestamp":1790803110272}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"AAPL","barCount":1255},"timestamp":1790803148547}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"AAPL","barCount":1255},"timestamp":1790803156004}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"GOOGL","barCount":1255},"timestamp":1790803168024}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"SBUX","barCount":1255},"timestamp":1790803197515}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"COST","barCount":1255},"timestamp":1790803224916}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"RBLX","barCount":1255},"timestamp":1790803234450}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"RBLX","barCount":1255},"timestamp":1790803254682}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"RBLX","barCount":1255},"timestamp":1790803255641}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"RBLX","barCount":1255},"timestamp":1790803257330}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"F","barCount":1255},"timestamp":1790803272356}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"F","barCount":1255},"timestamp":1790803282919}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"GM","barCount":1255},"timestamp":1790803287663}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"GM","barCount":1255},"timestamp":1790803296602}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"NVDA","barCount":1255},"timestamp":1790803302278}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"NVDA","barCount":1255},"timestamp":1790803310709}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"GOOGL","barCount":1255},"timestamp":1790803336405}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"TGT","barCount":1255},"timestamp":1790803364359}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"TGT","barCount":1255},"timestamp":1790803381486}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"AMZN","barCount":1255},"timestamp":1790803384835}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"AMZN","barCount":1255},"timestamp":1790803394187}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"MSFT","barCount":1255},"timestamp":1790803399077}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"AAPL","barCount":1255},"timestamp":1790803430382}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"NVDA","barCount":1255},"timestamp":1790803528289}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"NVDA","barCount":1255},"timestamp":1790803542176}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"AAPL","barCount":1255},"timestamp":1790803557566}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"AAPL","barCount":1255},"timestamp":1790803567452}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"MSFT","barCount":1255},"timestamp":1790803574974}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"MSFT","barCount":1255},"timestamp":1790803585562}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"GOOGL","barCount":1255},"timestamp":1790803595343}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"GOOGL","barCount":1255},"timestamp":1790803603803}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"NVDA","barCount":1255},"timestamp":1790803627730}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"NVDA","barCount":1255},"timestamp":1790803637683}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"NVDA","barCount":1255},"timestamp":1790803685526}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"SNAP","barCount":1255},"timestamp":1790803834829}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"SNAP","barCount":1255},"timestamp":1790803868640}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"META","barCount":1255},"timestamp":1790803884224}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"META","barCount":1255},"timestamp":1790803914136}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"NVDA","barCount":1255},"timestamp":1790803931349}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"NVDA","barCount":1255},"timestamp":1790803943487}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"SNAP","barCount":1255},"timestamp":1790803972921}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"RBLX","barCount":1255},"timestamp":1790803986854}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"RBLX","barCount":1255},"timestamp":1790804005316}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"SNAP","barCount":1255},"timestamp":1790804017861}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"F","barCount":1255},"timestamp":1790804037185}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"F","barCount":1255},"timestamp":1790804045931}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"SNAP","barCount":1255},"timestamp":1790804053113}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"SNAP","barCount":1255},"timestamp":1790804056647}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"AAPL","barCount":1255},"timestamp":1790804136600}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"NVDA","barCount":1255},"timestamp":1790973745313}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"NVDA","barCount":1255},"timestamp":1790974114480}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"AMZN","barCount":1255},"timestamp":1790974136075}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"AMZN","barCount":1255},"timestamp":1790974146436}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"SNAP","barCount":1255},"timestamp":1790974209296}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"SNAP","barCount":1255},"timestamp":1790974213458}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"SNAP","barCount":1255},"timestamp":1790974217665}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"SNAP","barCount":1255},"timestamp":1790974218309}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"SNAP","barCount":1255},"timestamp":1790974219075}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"SNAP","barCount":1255},"timestamp":1790974219851}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"SNAP","barCount":1255},"timestamp":1790974220525}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"SNAP","barCount":1255},"timestamp":1790974225970}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"TGT","barCount":1255},"timestamp":1790974232071}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"TGT","barCount":1255},"timestamp":1790974237326}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"F","barCount":1255},"timestamp":1790974264509}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"F","barCount":1255},"timestamp":1790974274414}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"GM","barCount":1255},"timestamp":1790974280805}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"GM","barCount":1255},"timestamp":1790974286538}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"META","barCount":1255},"timestamp":1790974301768}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"META","barCount":1255},"timestamp":1790974319502}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"RBLX","barCount":1255},"timestamp":1790974331578}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"RBLX","barCount":1255},"timestamp":1790974339380}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"NVDA"},"timestamp":1790974351045}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"RBLX","barCount":1255},"timestamp":1790974522197}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"META","barCount":1255},"timestamp":1790974523966}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"AAPL"},"timestamp":1790974524017}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"GOOGL"},"timestamp":1790974524019}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"MSFT"},"timestamp":1790974524019}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"NVDA"},"timestamp":1790974524025}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"MSFT"},"timestamp":1790974524957}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"GOOGL"},"timestamp":1790974524959}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"NVDA"},"timestamp":1790974524961}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"AAPL"},"timestamp":1790974524968}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"GOOGL"},"timestamp":1790974580928}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"AAPL"},"timestamp":1790974580973}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"NVDA"},"timestamp":1790974580978}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"MSFT"},"timestamp":1790974580979}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"NVDA"},"timestamp":1790974582175}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"MSFT"},"timestamp":1790974582176}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"AAPL"},"timestamp":1790974582177}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"GOOGL"},"timestamp":1790974582178}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"GOOGL"},"timestamp":1790974594200}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"NVDA"},"timestamp":1790974594202}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"AAPL"},"timestamp":1790974594213}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"MSFT"},"timestamp":1790974594222}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"AAPL"},"timestamp":1790974595442}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"MSFT"},"timestamp":1790974595444}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"GOOGL"},"timestamp":1790974595446}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"NVDA"},"timestamp":1790974595447}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"NVDA","barCount":1255},"timestamp":1790974609442}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"NVDA","barCount":1255},"timestamp":1790974628781}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"NVDA"},"timestamp":1790974642061}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"AAPL"},"timestamp":1790974642070}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"GOOGL"},"timestamp":1790974642072}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"MSFT"},"timestamp":1790974642073}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"AAPL"},"timestamp":1790974643002}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"NVDA"},"timestamp":1790974643003}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"GOOGL"},"timestamp":1790974643005}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"MSFT"},"timestamp":1790974643006}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"GOOGL","barCount":1255},"timestamp":1790974655234}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"GOOGL"},"timestamp":1790974660729}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"AAPL"},"timestamp":1790974660731}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"MSFT"},"timestamp":1790974660736}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"NVDA"},"timestamp":1790974660738}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"AAPL","barCount":1255},"timestamp":1790974661548}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"MSFT"},"timestamp":1790974661878}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"AAPL"},"timestamp":1790974661883}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"GOOGL"},"timestamp":1790974661886}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"NVDA"},"timestamp":1790974661917}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"GOOGL"},"timestamp":1790974664417}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"MSFT"},"timestamp":1790974664418}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"AAPL"},"timestamp":1790974664421}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"NVDA"},"timestamp":1790974664431}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"MSFT","barCount":1255},"timestamp":1790974665032}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"NVDA"},"timestamp":1790974665239}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"GOOGL"},"timestamp":1790974665239}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"AAPL"},"timestamp":1790974665241}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"MSFT"},"timestamp":1790974665244}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"MSFT"},"timestamp":1790974668688}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"AAPL"},"timestamp":1790974668690}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"NVDA"},"timestamp":1790974668692}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"GOOGL"},"timestamp":1790974668694}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"AAPL"},"timestamp":1790974669596}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"GOOGL"},"timestamp":1790974669597}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"MSFT"},"timestamp":1790974669756}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"NVDA"},"timestamp":1790974670095}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"F","barCount":1255},"timestamp":1790974673889}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"F","barCount":1255},"timestamp":1790974685428}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"AAPL"},"timestamp":1790974690497}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"GOOGL"},"timestamp":1790974690502}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"NVDA"},"timestamp":1790974690504}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"MSFT"},"timestamp":1790974690505}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"F"},"timestamp":1790974690506}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"F"},"timestamp":1790974691325}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"NVDA"},"timestamp":1790974691326}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"MSFT"},"timestamp":1790974691328}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"GOOGL"},"timestamp":1790974691329}
+{"sessionId":"69d501","runId":"post-fix","hypothesisId":"H6","location":"stocks.ts:fetchQuoteUncached","message":"quote skipped not on free plan","data":{"symbol":"AAPL"},"timestamp":1790974692060}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"NIO","barCount":1255},"timestamp":1792013037320}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"NIO","barCount":1255},"timestamp":1792013050175}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"SNAP","barCount":1255},"timestamp":1792013059867}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"NIO","barCount":1255},"timestamp":1792013078416}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"NIO","barCount":1255},"timestamp":1792013099356}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"SNAP","barCount":1255},"timestamp":1792013103026}
+{"sessionId":"69d501","runId":"pre-fix","hypothesisId":"H4","location":"stocks.ts:getStockHistoryForPage","message":"history loaded","data":{"symbol":"SNAP","barCount":1255},"timestamp":1792013114816}

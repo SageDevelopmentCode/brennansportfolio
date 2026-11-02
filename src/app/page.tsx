@@ -3,7 +3,11 @@ import { HubProjectsSection } from "@/components/hub-projects-section";
 import { getCityFavoriteCount, getLatestCityFavorite } from "@/lib/city-favorites";
 import { getFavoriteCount } from "@/lib/favorites";
 import { getHomeworkPreview } from "@/lib/homework-hub";
-import { jonathanProjects, mainProjects } from "@/lib/projects";
+import {
+  getLatestStockWatchlistEntry,
+  getStockWatchlistCount,
+} from "@/lib/stock-watchlist";
+import { jonathanProjects, mainProjects, physicsProjects } from "@/lib/projects";
 import { createClient } from "@/lib/supabase/server";
 
 function formatEventDate(date: string, time: string) {
@@ -18,11 +22,11 @@ export default async function Home() {
   const supabase = await createClient();
   const [
     { data: nextEvent },
-    { count: bookCount },
-    { data: topBook },
     favoriteCount,
     cityFavoriteCount,
     latestCityFavorite,
+    stockWatchlistCount,
+    latestStockWatchlist,
     homeworkPreview,
   ] = await Promise.all([
     supabase
@@ -32,17 +36,11 @@ export default async function Home() {
       .order("time", { ascending: true })
       .limit(1)
       .maybeSingle(),
-    supabase.from("books").select("*", { count: "exact", head: true }),
-    supabase
-      .from("books")
-      .select("name, score")
-      .not("score", "is", null)
-      .order("score", { ascending: false })
-      .limit(1)
-      .maybeSingle(),
     getFavoriteCount(supabase),
     getCityFavoriteCount(supabase),
     getLatestCityFavorite(supabase),
+    getStockWatchlistCount(supabase),
+    getLatestStockWatchlistEntry(supabase),
     getHomeworkPreview(supabase),
   ]);
 
@@ -53,14 +51,6 @@ export default async function Home() {
       }
     : null;
 
-  const bookPreview = {
-    count: bookCount ?? 0,
-    topBook:
-      topBook?.score !== null && topBook
-        ? { name: topBook.name, score: topBook.score }
-        : null,
-  };
-
   const libraryPreview = {
     favoriteCount,
   };
@@ -68,6 +58,11 @@ export default async function Home() {
   const skylinePreview = {
     favoriteCount: cityFavoriteCount,
     latestCity: latestCityFavorite?.name ?? null,
+  };
+
+  const marketPreview = {
+    watchlistCount: stockWatchlistCount,
+    latestSymbol: latestStockWatchlist?.symbol ?? null,
   };
 
   return (
@@ -82,10 +77,11 @@ export default async function Home() {
         <HubProjectsSection
           mainProjects={mainProjects}
           jonathanProjects={jonathanProjects}
+          physicsProjects={physicsProjects}
           overlookPreview={overlookPreview}
-          bookPreview={bookPreview}
           libraryPreview={libraryPreview}
           skylinePreview={skylinePreview}
+          marketPreview={marketPreview}
           homeworkPreview={homeworkPreview}
         />
       </main>

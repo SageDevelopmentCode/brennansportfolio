@@ -1,3 +1,4 @@
+import { MathClassProjectBrief } from "@/components/math-class-project-brief";
 import { MultiplicationGameClient } from "@/components/multiplication-game-client";
 import Link from "next/link";
 
@@ -40,15 +41,17 @@ export default function MathPage() {
           Times tables practice
         </span>
         <h1 className="mt-4 text-5xl font-extrabold leading-tight sm:text-6xl md:text-7xl">
-          <span className="math-title-glow">Math Blitz</span>
+          <span className="math-title-glow">Multiplication Mastery</span>
         </h1>
         <p className="mt-4 text-lg text-[var(--math-muted)]">
-          Multiply fast, build streaks, and unlock badges. No login needed — your
-          progress saves on this device.
+          Build fluency on times tables with practice mode, timed drills, per-table
+          stats, and achievement badges. Progress saves on this device—no login
+          required.
         </p>
       </header>
 
-      <div className="relative z-10 w-full max-w-2xl">
+      <div className="relative z-10 flex w-full max-w-2xl flex-col gap-6">
+        <MathClassProjectBrief />
         <MultiplicationGameClient />
       </div>
     </main>

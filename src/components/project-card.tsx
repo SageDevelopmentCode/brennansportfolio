@@ -1,39 +1,22 @@
-import { scoreToStars } from "@/lib/books";
 import type {
-  BookPreview,
   HomeworkPreview,
   LibraryPreview,
   OverlookPreview,
   Project,
   SkylinePreview,
+  MarketPreview,
 } from "@/lib/projects";
 import Link from "next/link";
 
 type ProjectCardProps = {
   project: Project;
   overlookPreview?: OverlookPreview;
-  bookPreview?: BookPreview;
   libraryPreview?: LibraryPreview;
   skylinePreview?: SkylinePreview;
+  marketPreview?: MarketPreview;
   homeworkPreview?: HomeworkPreview;
   index?: number;
 };
-
-function StarRow({ score }: { score: number }) {
-  const filled = scoreToStars(score);
-  return (
-    <div className="flex gap-1">
-      {Array.from({ length: 5 }, (_, i) => (
-        <span
-          key={i}
-          className={`text-lg ${i < filled ? "text-amber-300 drop-shadow-sm" : "text-white/25"}`}
-        >
-          ★
-        </span>
-      ))}
-    </div>
-  );
-}
 
 function cardGradient(theme: Project["theme"]): string {
   switch (theme) {
@@ -48,17 +31,51 @@ function cardGradient(theme: Project["theme"]): string {
     case "roadtrip":
       return "bg-gradient-to-br from-emerald-500 via-green-500 to-orange-400 hover:shadow-[0_24px_60px_rgba(5,150,105,0.35)]";
     case "math":
-      return "bg-gradient-to-br from-sky-500 via-blue-500 to-orange-400 hover:shadow-[0_24px_60px_rgba(14,165,233,0.35)]";
+      return "bg-gradient-to-br from-sky-400 via-cyan-500 to-orange-400 hover:shadow-[0_24px_60px_rgba(14,165,233,0.35)]";
+    case "typing":
+      return "bg-gradient-to-br from-cyan-400 via-fuchsia-500 to-violet-600 hover:shadow-[0_24px_60px_rgba(34,211,238,0.35)]";
+    case "squad":
+      return "bg-gradient-to-br from-sky-400 via-blue-500 to-slate-200 hover:shadow-[0_24px_60px_rgba(0,122,255,0.35)]";
     case "snake":
       return "bg-gradient-to-br from-lime-500 via-emerald-600 to-green-900 hover:shadow-[0_24px_60px_rgba(34,197,94,0.35)]";
     case "torch":
       return "bg-gradient-to-br from-orange-500 via-red-600 to-purple-900 hover:shadow-[0_24px_60px_rgba(249,115,22,0.35)]";
+    case "rocketfist":
+      return "bg-gradient-to-br from-rose-500 via-red-600 to-blue-600 hover:shadow-[0_24px_60px_rgba(239,68,68,0.4)]";
     case "eggs":
       return "bg-gradient-to-br from-yellow-400 via-amber-500 to-orange-500 hover:shadow-[0_24px_60px_rgba(251,191,36,0.35)]";
     case "chess":
       return "bg-gradient-to-br from-emerald-700 via-green-800 to-amber-700 hover:shadow-[0_24px_60px_rgba(45,90,39,0.35)]";
     case "history":
       return "bg-gradient-to-br from-amber-700 via-orange-800 to-stone-700 hover:shadow-[0_24px_60px_rgba(180,83,9,0.35)]";
+    case "workout":
+      return "bg-gradient-to-br from-orange-600 via-red-600 to-stone-800 hover:shadow-[0_24px_60px_rgba(234,88,12,0.35)]";
+    case "spelling":
+      return "bg-gradient-to-br from-amber-500 via-orange-500 to-emerald-600 hover:shadow-[0_24px_60px_rgba(217,119,6,0.35)]";
+    case "sign":
+      return "bg-gradient-to-br from-sky-500 via-indigo-600 to-violet-700 hover:shadow-[0_24px_60px_rgba(56,189,248,0.35)]";
+    case "allergies":
+      return "bg-gradient-to-br from-rose-400 via-orange-400 to-amber-200 hover:shadow-[0_24px_60px_rgba(251,113,133,0.35)]";
+    case "blockrealm":
+      return "bg-gradient-to-br from-lime-400 via-emerald-700 to-stone-700 hover:shadow-[0_24px_60px_rgba(34,197,94,0.35)]";
+    case "shelter":
+      return "bg-gradient-to-br from-teal-400 via-emerald-500 to-lime-600 hover:shadow-[0_24px_60px_rgba(20,184,166,0.35)]";
+    case "gym":
+      return "bg-gradient-to-br from-zinc-800 via-orange-600 to-amber-500 hover:shadow-[0_24px_60px_rgba(234,88,12,0.35)]";
+    case "market":
+      return "bg-gradient-to-br from-slate-900 via-emerald-800 to-lime-500 hover:shadow-[0_24px_60px_rgba(52,211,153,0.35)]";
+    case "delivery":
+      return "bg-gradient-to-br from-orange-500 via-amber-500 to-teal-500 hover:shadow-[0_24px_60px_rgba(249,115,22,0.35)]";
+    case "physics":
+      return "bg-gradient-to-br from-slate-800 via-violet-700 to-indigo-500 hover:shadow-[0_24px_60px_rgba(139,92,246,0.35)]";
+    case "austin311":
+      return "bg-gradient-to-br from-teal-600 via-orange-500 to-amber-200 hover:shadow-[0_24px_60px_rgba(13,148,136,0.35)]";
+    case "hillclimb":
+      return "bg-gradient-to-br from-lime-500 via-green-600 to-amber-500 hover:shadow-[0_24px_60px_rgba(34,197,94,0.35)]";
+    case "solarsystem":
+      return "bg-gradient-to-br from-indigo-950 via-violet-900 to-amber-400 hover:shadow-[0_24px_60px_rgba(99,102,241,0.4)]";
+    case "familycalendar":
+      return "bg-gradient-to-br from-yellow-300 via-pink-500 to-indigo-600 hover:shadow-[0_24px_60px_rgba(236,72,153,0.55)] hover:scale-[1.02] transition-transform";
     default:
       return "bg-gradient-to-br from-teal-400 via-emerald-500 to-amber-400 hover:shadow-[0_24px_60px_rgba(16,185,129,0.35)]";
   }
@@ -67,9 +84,9 @@ function cardGradient(theme: Project["theme"]): string {
 export function ProjectCard({
   project,
   overlookPreview,
-  bookPreview,
   libraryPreview,
   skylinePreview,
+  marketPreview,
   homeworkPreview,
   index = 0,
 }: ProjectCardProps) {
@@ -93,15 +110,17 @@ export function ProjectCard({
   }
 
   const isOverlook = theme === "overlook";
-  const isBooks = theme === "books";
   const isLibrary = theme === "library";
   const isSkyline = theme === "skyline";
+  const isMarket = theme === "market";
   const isHomework = theme === "homework";
-  const isMath = theme === "math";
   const isSnake = theme === "snake";
   const isTorch = theme === "torch";
+  const isRocketFist = theme === "rocketfist";
   const isEggs = theme === "eggs";
   const isChess = theme === "chess";
+  const isTyping = theme === "typing";
+  const isBlockrealm = theme === "blockrealm";
 
   return (
     <Link
@@ -147,32 +166,6 @@ export function ProjectCard({
           </p>
         ) : null}
 
-        {isBooks && bookPreview ? (
-          <div className="rounded-2xl border border-white/20 bg-black/25 px-4 py-3 backdrop-blur-md">
-            {bookPreview.topBook ? (
-              <>
-                <p className="text-xs font-bold uppercase tracking-wider text-white/60">
-                  Top rated
-                </p>
-                <StarRow score={bookPreview.topBook.score} />
-                <p className="mt-1 truncate text-lg font-bold text-white">
-                  {bookPreview.topBook.name}
-                </p>
-                <p className="text-sm text-white/75">
-                  {bookPreview.count} {bookPreview.count === 1 ? "book" : "books"}{" "}
-                  on the shelf
-                </p>
-              </>
-            ) : (
-              <p className="text-sm font-medium text-white/75">
-                {bookPreview.count === 0
-                  ? "Empty shelf — add your first book!"
-                  : `${bookPreview.count} books waiting for ratings`}
-              </p>
-            )}
-          </div>
-        ) : null}
-
         {isLibrary && libraryPreview ? (
           <div className="rounded-2xl border border-white/20 bg-black/25 px-4 py-3 backdrop-blur-md">
             <p className="text-xs font-bold uppercase tracking-wider text-white/60">
@@ -205,6 +198,23 @@ export function ProjectCard({
           </div>
         ) : null}
 
+        {isMarket && marketPreview ? (
+          <div className="rounded-2xl border border-white/20 bg-black/25 px-4 py-3 backdrop-blur-md">
+            <p className="text-xs font-bold uppercase tracking-wider text-white/60">
+              Your watchlist
+            </p>
+            <p className="mt-1 text-lg font-bold text-white">
+              {marketPreview.watchlistCount}{" "}
+              {marketPreview.watchlistCount === 1 ? "ticker" : "tickers"} saved
+            </p>
+            <p className="text-sm text-white/75">
+              {marketPreview.latestSymbol
+                ? `Latest: ${marketPreview.latestSymbol}`
+                : "Search stocks & chart prices"}
+            </p>
+          </div>
+        ) : null}
+
         {isHomework && homeworkPreview ? (
           <div className="rounded-2xl border border-white/20 bg-black/25 px-4 py-3 backdrop-blur-md">
             <p className="text-xs font-bold uppercase tracking-wider text-white/60">
@@ -225,20 +235,6 @@ export function ProjectCard({
             Log in to track homework, chores & savings
           </p>
         ) : null}
-
-        {isMath && (
-          <div className="rounded-2xl border border-white/20 bg-black/25 px-4 py-3 backdrop-blur-md">
-            <p className="text-xs font-bold uppercase tracking-wider text-white/60">
-              Times tables
-            </p>
-            <p className="mt-1 text-lg font-bold text-white">
-              Practice multiplication!
-            </p>
-            <p className="text-sm text-white/75">
-              Streaks, badges & speed rounds
-            </p>
-          </div>
-        )}
 
         {isSnake && (
           <div className="rounded-2xl border border-white/20 bg-black/25 px-4 py-3 backdrop-blur-md">
@@ -292,19 +288,80 @@ export function ProjectCard({
           </div>
         )}
 
+        {isRocketFist && (
+          <div className="rounded-2xl border border-white/20 bg-black/25 px-4 py-3 backdrop-blur-md">
+            <p className="text-xs font-bold uppercase tracking-wider text-white/60">
+              Junkyard arena
+            </p>
+            <div className="mt-3 flex items-end justify-center gap-3" aria-hidden>
+              <span className="text-2xl">👊</span>
+              <span className="text-xl">🤖</span>
+              <span className="text-2xl">🍕</span>
+              <span className="text-2xl">🦖</span>
+            </div>
+            <p className="mt-3 text-sm text-white/75">
+              Punch, dash, and survive the bosses
+            </p>
+          </div>
+        )}
+
         {isEggs && (
           <div className="rounded-2xl border border-white/20 bg-black/25 px-4 py-3 backdrop-blur-md">
             <p className="text-xs font-bold uppercase tracking-wider text-white/60">
-              Kitchen arena
+              Jungle lanes
             </p>
             <div className="mt-3 flex items-end justify-center gap-3" aria-hidden>
-              <span className="text-2xl">🧑‍🍳</span>
-              <span className="text-xl">🥚</span>
-              <span className="text-xl">🥚</span>
-              <span className="text-lg opacity-70">🔺</span>
+              <span className="text-2xl">🦍</span>
+              <span className="text-xl">🍌</span>
+              <span className="text-xl">🍌</span>
+              <span className="text-lg opacity-70">🪵</span>
             </div>
             <p className="mt-3 text-sm text-white/75">
-              Whack 100 eggs, dodge falling spikes
+              Strafe, jump, grab bananas — don&apos;t starve
+            </p>
+          </div>
+        )}
+
+        {isTyping && (
+          <div className="rounded-2xl border border-white/20 bg-black/25 px-4 py-3 backdrop-blur-md">
+            <p className="text-xs font-bold uppercase tracking-wider text-white/60">
+              Neon keys
+            </p>
+            <div
+              className="mt-3 flex flex-wrap items-center justify-center gap-1 font-mono text-sm font-bold"
+              aria-hidden
+            >
+              {["Q", "W", "E", "R", "T", "Y"].map((key) => (
+                <span
+                  key={key}
+                  className="rounded-md border border-white/20 bg-white/10 px-2 py-1 text-white/90"
+                >
+                  {key}
+                </span>
+              ))}
+            </div>
+            <p className="mt-3 text-sm text-white/75">
+              60s WPM tests, word drops &amp; key drills
+            </p>
+          </div>
+        )}
+
+        {isBlockrealm && (
+          <div className="rounded-2xl border border-white/20 bg-black/25 px-4 py-3 backdrop-blur-md">
+            <p className="text-xs font-bold uppercase tracking-wider text-white/60">
+              Little lands
+            </p>
+            <div
+              className="mt-3 flex items-end justify-center gap-1"
+              aria-hidden
+            >
+              <span className="h-5 w-5 rounded-sm bg-stone-500 shadow-md" />
+              <span className="h-6 w-6 rounded-sm bg-amber-800 shadow-md" />
+              <span className="h-7 w-7 rounded-sm bg-lime-500 shadow-md" />
+              <span className="h-6 w-6 rounded-sm bg-sky-400/80 shadow-md" />
+            </div>
+            <p className="mt-3 text-sm text-white/75">
+              Build a tiny world, then watch the sky fade to night
             </p>
           </div>
         )}

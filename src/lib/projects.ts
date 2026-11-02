@@ -1,18 +1,34 @@
 export type ProjectTheme =
   | "overlook"
-  | "books"
   | "library"
   | "skyline"
   | "homework"
   | "roadtrip"
   | "math"
+  | "typing"
   | "snake"
   | "torch"
+  | "rocketfist"
   | "eggs"
   | "chess"
-  | "history";
+  | "history"
+  | "workout"
+  | "spelling"
+  | "blockrealm"
+  | "shelter"
+  | "gym"
+  | "market"
+  | "delivery"
+  | "physics"
+  | "austin311"
+  | "hillclimb"
+  | "solarsystem"
+  | "familycalendar"
+  | "sign"
+  | "allergies"
+  | "squad";
 
-export type ProjectGroup = "jonathan";
+export type ProjectGroup = "jonathan" | "physics";
 
 export type Project = {
   id: string;
@@ -33,14 +49,6 @@ export const projects: Project[] = [
     emoji: "🎉",
     theme: "overlook",
     href: "/overlook",
-  },
-  {
-    id: "books",
-    title: "Book Shelf",
-    description: "Books read and ratings",
-    emoji: "📚",
-    theme: "books",
-    href: "/books",
   },
   {
     id: "library",
@@ -67,6 +75,14 @@ export const projects: Project[] = [
     href: "/homework",
   },
   {
+    id: "family-calendar",
+    title: "Home Week",
+    description: "Neon week grid — plot plans, color-coded crew, tap to add chaos",
+    emoji: "📅",
+    theme: "familycalendar",
+    href: "/family-calendar",
+  },
+  {
     id: "roadtrip",
     title: "Open Road",
     description: "Plan a route and find gas and grocery stops along the way",
@@ -76,11 +92,67 @@ export const projects: Project[] = [
   },
   {
     id: "math",
-    title: "Math Blitz",
-    description: "Practice times tables with streaks and badges",
+    title: "Multiplication Mastery",
+    description: "Times-table drills with levels, focus tables, and progress stats",
     emoji: "✖️",
     theme: "math",
     href: "/math",
+  },
+  {
+    id: "typing",
+    title: "Key Blitz",
+    description: "Neon typing arcade — WPM tests, word drops, and key drills",
+    emoji: "⚡",
+    theme: "typing",
+    href: "/typing",
+  },
+  {
+    id: "squad-ping",
+    title: "Squad Ping",
+    description: "Secret base codes — live chat with your crew",
+    emoji: "📡",
+    theme: "squad",
+    href: "/squad",
+  },
+  {
+    id: "hill-climb",
+    title: "Hill Run",
+    description: "Hill-climb racing — fuel, coins, garage upgrades, and unlockable stages",
+    emoji: "🏔️",
+    theme: "hillclimb",
+    href: "/hill-climb",
+  },
+  {
+    id: "workout",
+    title: "Rep Rack",
+    description: "Workout templates, built-in stopwatch, and session history",
+    emoji: "💪",
+    theme: "workout",
+    href: "/workout",
+  },
+  {
+    id: "spelling",
+    title: "Spell Sound",
+    description: "Hear 6th-grade words, type the spelling, and track mastery",
+    emoji: "🔤",
+    theme: "spelling",
+    href: "/spelling",
+  },
+  {
+    id: "food-allergies",
+    title: "Allergy Plate",
+    description: "Allergens, worldwide food search, and daily meal planning on this device",
+    emoji: "🥜",
+    theme: "allergies",
+    href: "/food-allergies",
+  },
+  {
+    id: "sign",
+    title: "Sign Bridge",
+    description: "Type text and play ASL on a 3D hand — dictionary words plus fingerspelling",
+    emoji: "🤟",
+    theme: "sign",
+    href: "/sign",
   },
   {
     id: "snake",
@@ -101,12 +173,48 @@ export const projects: Project[] = [
     group: "jonathan",
   },
   {
+    id: "rocket-fist",
+    title: "Rocket Fist",
+    description: "Junkyard arena — punch monsters, dash, survive the bosses",
+    emoji: "👊",
+    theme: "rocketfist",
+    href: "/rocket-fist",
+    group: "jonathan",
+  },
+  {
     id: "eggs",
-    title: "Egg Whack",
-    description: "Whack 100 falling eggs with your spatula — dodge the spikes",
-    emoji: "🍳",
+    title: "Hungry Ape Run",
+    description: "Jungle runner — strafe, jump, grab bananas, don’t starve",
+    emoji: "🦍",
     theme: "eggs",
     href: "/eggs",
+    group: "jonathan",
+  },
+  {
+    id: "blockrealm",
+    title: "Block Realm",
+    description: "Place blocks, break blocks, survive the night",
+    emoji: "🟫",
+    theme: "blockrealm",
+    href: "/blockrealm",
+    group: "jonathan",
+  },
+  {
+    id: "shelter",
+    title: "Paw Shelter",
+    description: "Adopt anything — animals, people, or chaos. Staff adds listings.",
+    emoji: "🐾",
+    theme: "shelter",
+    href: "/shelter",
+    group: "jonathan",
+  },
+  {
+    id: "gym",
+    title: "Iron Desk",
+    description: "Front desk check-ins — you own the gym, families wait, Butt Face talks.",
+    emoji: "🏋️",
+    theme: "gym",
+    href: "/gym",
     group: "jonathan",
   },
   {
@@ -125,20 +233,59 @@ export const projects: Project[] = [
     theme: "history",
     href: "/history",
   },
+  {
+    id: "solar-system",
+    title: "Solar System Explorer",
+    description: "Fly through the Sun and planets — tap any world for NASA facts and photos",
+    emoji: "🪐",
+    theme: "solarsystem",
+    href: "/solar-system",
+  },
+  {
+    id: "market",
+    title: "Ticker Tape",
+    description: "Search US stocks, check prices, and chart end-of-day moves",
+    emoji: "📈",
+    theme: "market",
+    href: "/stocks",
+  },
+  {
+    id: "delivery",
+    title: "Skate Drop",
+    description: "You own the company. Hire skateboards by name.",
+    emoji: "🛹",
+    theme: "delivery",
+    href: "/delivery",
+  },
+  {
+    id: "physics-ramp",
+    title: "Ramp Lab",
+    description: "Angle, friction, ramp length, and ball material — roll it down",
+    emoji: "⚗️",
+    theme: "physics",
+    href: "/physics",
+    group: "physics",
+  },
+  {
+    id: "austin-311",
+    title: "City Calls",
+    description: "Austin Transportation 311 requests — live charts and an open-requests map",
+    emoji: "📞",
+    theme: "austin311",
+    href: "/austin-311",
+  },
 ];
 
-export const mainProjects = projects.filter((project) => project.group !== "jonathan");
+export const mainProjects = projects.filter(
+  (project) => project.group !== "jonathan" && project.group !== "physics"
+);
 export const jonathanProjects = projects.filter((project) => project.group === "jonathan");
+export const physicsProjects = projects.filter((project) => project.group === "physics");
 
 export type OverlookPreview = {
   name: string;
   date: string;
 } | null;
-
-export type BookPreview = {
-  count: number;
-  topBook: { name: string; score: number } | null;
-};
 
 export type LibraryPreview = {
   favoriteCount: number;
@@ -147,6 +294,11 @@ export type LibraryPreview = {
 export type SkylinePreview = {
   favoriteCount: number;
   latestCity: string | null;
+};
+
+export type MarketPreview = {
+  watchlistCount: number;
+  latestSymbol: string | null;
 };
 
 export type HomeworkPreview = {

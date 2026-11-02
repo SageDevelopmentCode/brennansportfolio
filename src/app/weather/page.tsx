@@ -93,8 +93,8 @@ export default async function WeatherPage() {
           <span className="skyline-title-glow">Skyline</span>
         </h1>
         <p className="mt-4 text-lg text-[var(--skyline-muted)]">
-          Search any city, check live conditions, and build your personal weather
-          watchlist.
+          Search any city, check live conditions, build your personal weather
+          watchlist, and track active storms in Forcastr.
         </p>
 
         <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">

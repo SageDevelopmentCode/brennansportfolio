@@ -1,6 +1,7 @@
 "use client";
 
 import { CityCard } from "@/components/city-card";
+import { ForcastrMapCard } from "@/components/forcastr-map-card";
 import type { CityWithWeather } from "@/lib/weather";
 import { useEffect, useState } from "react";
 
@@ -161,13 +162,24 @@ export function CitySearch({
                     />
                   </div>
                 ))}
+                <div
+                  className="animate-skyline-slide-in"
+                  style={{ animationDelay: `${featuredCities.length * 80}ms` }}
+                >
+                  <ForcastrMapCard />
+                </div>
               </div>
             </>
           ) : (
-            <p className="text-sm text-[var(--skyline-muted)]">
-              Weather data is temporarily unavailable. Try searching for a city
-              above.
-            </p>
+            <>
+              <p className="text-sm text-[var(--skyline-muted)]">
+                Weather data is temporarily unavailable. Try searching for a city
+                above.
+              </p>
+              <div className="animate-skyline-slide-in">
+                <ForcastrMapCard />
+              </div>
+            </>
           )}
         </div>
       )}

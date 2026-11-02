@@ -8,8 +8,9 @@ const fredoka = Fredoka({
 });
 
 export const metadata: Metadata = {
-  title: "Egg Whack",
-  description: "Whack 100 falling eggs with your spatula — dodge the spikes",
+  title: "Hungry Ape Run",
+  description:
+    "Jungle endless runner — dodge logs, jump stumps, collect bananas before you starve",
 };
 
 export default function EggsLayout({ children }: LayoutProps<"/eggs">) {

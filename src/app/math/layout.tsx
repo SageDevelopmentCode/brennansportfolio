@@ -8,8 +8,9 @@ const fredoka = Fredoka({
 });
 
 export const metadata: Metadata = {
-  title: "Math Blitz",
-  description: "Practice multiplication with streaks, badges, and speed rounds",
+  title: "Multiplication Mastery",
+  description:
+    "Interactive times-table practice with difficulty levels, timed drills, and device-saved progress",
 };
 
 export default function MathLayout({ children }: LayoutProps<"/math">) {

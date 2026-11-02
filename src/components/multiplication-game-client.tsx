@@ -191,10 +191,10 @@ export function MultiplicationGameClient() {
       {phase === "setup" && (
         <div className="math-glass-card rounded-3xl p-6 sm:p-8">
           <h2 className="text-2xl font-extrabold text-[var(--math-ink)]">
-            Choose your game
+            Choose your practice settings
           </h2>
           <p className="mt-2 text-[var(--math-muted)]">
-            Pick a mode and difficulty, then start multiplying!
+            Pick a mode and difficulty, then work through problems at your pace.
           </p>
 
           <div className="mt-6 space-y-5">
@@ -265,7 +265,7 @@ export function MultiplicationGameClient() {
             onClick={startGame}
             className="math-btn-primary mt-8 w-full"
           >
-            Start playing!
+            Start practicing
           </button>
 
           {progress.bestStreak > 0 && (
@@ -394,7 +394,7 @@ export function MultiplicationGameClient() {
             onClick={() => setPhase("setup")}
             className="math-btn-primary mt-8"
           >
-            Play again
+            Practice again
           </button>
         </div>
       )}

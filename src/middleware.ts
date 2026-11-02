@@ -21,6 +21,7 @@ export async function middleware(request: NextRequest) {
           supabaseResponse = NextResponse.next({
             request,
           });
+          supabaseResponse.headers.set("x-pathname", request.nextUrl.pathname);
           cookiesToSet.forEach(({ name, value, options }) =>
             supabaseResponse.cookies.set(name, value, options),
           );
@@ -30,6 +31,8 @@ export async function middleware(request: NextRequest) {
   );
 
   await supabase.auth.getUser();
+
+  supabaseResponse.headers.set("x-pathname", request.nextUrl.pathname);
 
   return supabaseResponse;
 }

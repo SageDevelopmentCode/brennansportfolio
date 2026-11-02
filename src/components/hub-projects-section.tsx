@@ -2,45 +2,52 @@
 
 import { ProjectCard } from "@/components/project-card";
 import type {
-  BookPreview,
   HomeworkPreview,
   LibraryPreview,
   OverlookPreview,
   Project,
   SkylinePreview,
+  MarketPreview,
 } from "@/lib/projects";
 import { useState } from "react";
 
-type HubTab = "brennan" | "jonathan";
+type HubTab = "brennan" | "jonathan" | "physics";
 
 const TABS: { id: HubTab; label: string }[] = [
   { id: "brennan", label: "Brennan's Projects" },
   { id: "jonathan", label: "Jonathan's Projects" },
+  { id: "physics", label: "Physics" },
 ];
 
 type HubProjectsSectionProps = {
   mainProjects: Project[];
   jonathanProjects: Project[];
+  physicsProjects: Project[];
   overlookPreview: OverlookPreview;
-  bookPreview: BookPreview;
   libraryPreview: LibraryPreview;
   skylinePreview: SkylinePreview;
+  marketPreview: MarketPreview;
   homeworkPreview: HomeworkPreview | null;
 };
 
 export function HubProjectsSection({
   mainProjects,
   jonathanProjects,
+  physicsProjects,
   overlookPreview,
-  bookPreview,
   libraryPreview,
   skylinePreview,
+  marketPreview,
   homeworkPreview,
 }: HubProjectsSectionProps) {
   const [activeTab, setActiveTab] = useState<HubTab>("brennan");
 
   const visibleProjects =
-    activeTab === "brennan" ? mainProjects : jonathanProjects;
+    activeTab === "brennan"
+      ? mainProjects
+      : activeTab === "jonathan"
+        ? jonathanProjects
+        : physicsProjects;
 
   return (
     <section className="w-full">
@@ -83,12 +90,14 @@ export function HubProjectsSection({
             overlookPreview={
               project.id === "overlook" ? overlookPreview : undefined
             }
-            bookPreview={project.id === "books" ? bookPreview : undefined}
             libraryPreview={
               project.id === "library" ? libraryPreview : undefined
             }
             skylinePreview={
               project.id === "skyline" ? skylinePreview : undefined
+            }
+            marketPreview={
+              project.id === "market" ? marketPreview : undefined
             }
             homeworkPreview={
               project.id === "homework" ? homeworkPreview ?? undefined : undefined
