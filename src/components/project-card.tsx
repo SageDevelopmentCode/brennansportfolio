@@ -52,6 +52,8 @@ function cardGradient(theme: Project["theme"]): string {
       return "bg-gradient-to-br from-orange-600 via-red-600 to-stone-800 hover:shadow-[0_24px_60px_rgba(234,88,12,0.35)]";
     case "spelling":
       return "bg-gradient-to-br from-amber-500 via-orange-500 to-emerald-600 hover:shadow-[0_24px_60px_rgba(217,119,6,0.35)]";
+    case "bible":
+      return "bg-gradient-to-br from-amber-900 via-stone-700 to-emerald-900 hover:shadow-[0_24px_60px_rgba(120,72,28,0.4)]";
     case "sign":
       return "bg-gradient-to-br from-sky-500 via-indigo-600 to-violet-700 hover:shadow-[0_24px_60px_rgba(56,189,248,0.35)]";
     case "allergies":
@@ -72,10 +74,16 @@ function cardGradient(theme: Project["theme"]): string {
       return "bg-gradient-to-br from-teal-600 via-orange-500 to-amber-200 hover:shadow-[0_24px_60px_rgba(13,148,136,0.35)]";
     case "hillclimb":
       return "bg-gradient-to-br from-lime-500 via-green-600 to-amber-500 hover:shadow-[0_24px_60px_rgba(34,197,94,0.35)]";
+    case "dealership":
+      return "bg-gradient-to-br from-emerald-700 via-green-600 to-slate-300 hover:shadow-[0_24px_60px_rgba(21,128,61,0.35)]";
     case "solarsystem":
       return "bg-gradient-to-br from-indigo-950 via-violet-900 to-amber-400 hover:shadow-[0_24px_60px_rgba(99,102,241,0.4)]";
     case "familycalendar":
       return "bg-gradient-to-br from-yellow-300 via-pink-500 to-indigo-600 hover:shadow-[0_24px_60px_rgba(236,72,153,0.55)] hover:scale-[1.02] transition-transform";
+    case "quack":
+      return "bg-gradient-to-br from-yellow-300 via-orange-500 to-fuchsia-600 hover:shadow-[0_24px_60px_rgba(250,204,21,0.5)]";
+    case "flingo":
+      return "bg-gradient-to-br from-sky-400 via-orange-500 to-violet-600 hover:shadow-[0_24px_60px_rgba(249,115,22,0.45)]";
     default:
       return "bg-gradient-to-br from-teal-400 via-emerald-500 to-amber-400 hover:shadow-[0_24px_60px_rgba(16,185,129,0.35)]";
   }
@@ -121,6 +129,7 @@ export function ProjectCard({
   const isChess = theme === "chess";
   const isTyping = theme === "typing";
   const isBlockrealm = theme === "blockrealm";
+  const isQuack = theme === "quack";
 
   return (
     <Link
@@ -301,6 +310,24 @@ export function ProjectCard({
             </div>
             <p className="mt-3 text-sm text-white/75">
               Punch, dash, and survive the bosses
+            </p>
+          </div>
+        )}
+
+        {isQuack && (
+          <div className="rounded-2xl border border-white/20 bg-black/25 px-4 py-3 backdrop-blur-md">
+            <p className="text-xs font-bold uppercase tracking-wider text-white/60">
+              Blob apocalypse
+            </p>
+            <div className="mt-3 flex items-end justify-center gap-3" aria-hidden>
+              <span className="text-2xl">🦆</span>
+              <span className="text-xl">🍞</span>
+              <span className="text-xl">⚡</span>
+              <span className="text-2xl">🐔</span>
+              <span className="text-xl">💣</span>
+            </div>
+            <p className="mt-3 text-sm text-white/75">
+              Auto-blast, level up, MEGA QUACK
             </p>
           </div>
         )}

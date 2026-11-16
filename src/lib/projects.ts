@@ -14,6 +14,7 @@ export type ProjectTheme =
   | "history"
   | "workout"
   | "spelling"
+  | "bible"
   | "blockrealm"
   | "shelter"
   | "gym"
@@ -22,11 +23,14 @@ export type ProjectTheme =
   | "physics"
   | "austin311"
   | "hillclimb"
+  | "dealership"
   | "solarsystem"
   | "familycalendar"
   | "sign"
   | "allergies"
-  | "squad";
+  | "squad"
+  | "quack"
+  | "flingo";
 
 export type ProjectGroup = "jonathan" | "physics";
 
@@ -42,6 +46,22 @@ export type Project = {
 };
 
 export const projects: Project[] = [
+  {
+    id: "flingo",
+    title: "Flingo",
+    description: "Drag. Fling. Smash floating junk. Climb forever. Learn nothing.",
+    emoji: "🟠",
+    theme: "flingo",
+    href: "/flingo",
+  },
+  {
+    id: "quack-attack",
+    title: "Quack Attack",
+    description: "Be a duck in sunglasses. Bonk a billion blobs. Learn absolutely nothing.",
+    emoji: "🦆",
+    theme: "quack",
+    href: "/quack-attack",
+  },
   {
     id: "overlook",
     title: "Overlook Events",
@@ -115,12 +135,20 @@ export const projects: Project[] = [
     href: "/squad",
   },
   {
-    id: "hill-climb",
-    title: "Hill Run",
-    description: "Hill-climb racing — fuel, coins, garage upgrades, and unlockable stages",
-    emoji: "🏔️",
+    id: "hill-rush",
+    title: "Brennan's Hill Rush",
+    description: "Climb. Flip. Don't bonk your head — fuel, coins, garage, and stages",
+    emoji: "🚙",
     theme: "hillclimb",
-    href: "/hill-climb",
+    href: "/hillrush",
+  },
+  {
+    id: "dealership",
+    title: "Rush Motors",
+    description: "Sell the Hill Rush garage — same cars, same drawings",
+    emoji: "🏪",
+    theme: "dealership",
+    href: "/dealership",
   },
   {
     id: "workout",
@@ -137,6 +165,14 @@ export const projects: Project[] = [
     emoji: "🔤",
     theme: "spelling",
     href: "/spelling",
+  },
+  {
+    id: "bible",
+    title: "Bible Hub",
+    description: "Read a chapter, keep today's verse, and memorize on this device",
+    emoji: "✝️",
+    theme: "bible",
+    href: "/bible",
   },
   {
     id: "food-allergies",

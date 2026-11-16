@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Brennan's Hill Rush</title>
+  <link rel="stylesheet" href="style.css?v=features-v1" />
+</head>
+<body>
+  <canvas id="game"></canvas>
+
+  <!-- ===== HUD ===== -->
+  <div id="hud" class="screen hidden">
+    <div class="hud-top">
+      <div class="hud-box" id="hud-coins"><span class="coin-icon"></span><span id="coin-count">0</span></div>
+      <div class="hud-box" id="hud-dist"><span class="hud-field-label">Distance</span> <span id="dist-count">0</span> m<small id="best-label"></small></div>
+      <div class="hud-box" id="hud-fuel">
+        <span class="fuel-icon"></span>
+        <div class="fuel-track"><div id="fuel-fill"></div></div>
+      </div>
+      <div class="hud-box hidden" id="hud-rider"><span id="rider-label">RIDER</span></div>
+      <div class="hud-box hidden" id="hud-combo"><span id="combo-label">x1</span><div class="combo-track"><div id="combo-fill"></div></div></div>
+      <div class="hud-box hidden" id="hud-nitro">NITRO</div>
+    </div>
+    <button id="cut-btn" class="pedal hidden" type="button"><span>CUT</span></button>
+    <button id="pause-btn" class="icon-btn" type="button" title="Pause">II</button>
+    <div id="speed-hud" aria-label="Speed">
+      <span class="hud-field-label">Speed</span>
+      <p id="speed-readout" class="speed-readout">0 / 55 mph</p>
+      <canvas id="dial" width="140" height="140"></canvas>
+    </div>
+    <div id="floaters"></div>
+    <button id="pedal-brake" class="pedal" type="button"><span>BRAKE</span></button>
+    <button id="pedal-cloak" class="pedal hidden" type="button"><span>CLOAK</span></button>
+    <button id="pedal-jump" class="pedal" type="button"><span>JUMP</span></button>
+    <button id="pedal-gas" class="pedal" type="button"><span>GAS</span></button>
+  </div>
+
+  <!-- ===== MAIN MENU ===== -->
+  <div id="menu" class="screen">
+    <div class="panel big">
+      <h1 class="logo">Brennan's<br /><span>Hill Rush</span></h1>
+      <p class="tagline">Climb. Flip. Don't bonk your head.</p>
+      <div class="menu-coins"><span class="coin-icon"></span><span id="menu-coin-count">0</span></div>
+      <div class="menu-select">
+        <div class="sel-row">
+          <button class="arrow" id="veh-prev" type="button">&lsaquo;</button>
+          <div class="sel-card" id="veh-card">
+            <canvas id="veh-preview" width="220" height="120"></canvas>
+            <div class="sel-name" id="veh-name">Jeep</div>
+            <div class="sel-sub" id="veh-sub"></div>
+          </div>
+          <button class="arrow" id="veh-next" type="button">&rsaquo;</button>
+        </div>
+        <div class="sel-row">
+          <button class="arrow" id="stage-prev" type="button">&lsaquo;</button>
+          <div class="sel-card" id="stage-card">
+            <canvas id="stage-preview" width="220" height="120"></canvas>
+            <div class="sel-name" id="stage-name">Countryside</div>
+            <div class="sel-sub" id="stage-sub"></div>
+            <div id="stage-goals" class="goal-row"></div>
+          </div>
+          <button class="arrow" id="stage-next" type="button">&rsaquo;</button>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button id="garage-btn" class="btn secondary" type="button">Garage</button>
+        <button id="test-ride-btn" class="btn secondary hidden" type="button">Test Ride</button>
+        <button id="play-btn" class="btn primary" type="button">Drive!</button>
+      </div>
+      <div class="controls">
+        <div><kbd>&rarr;</kbd> / <kbd>D</kbd> Gas</div>
+        <div><kbd>&larr;</kbd> / <kbd>A</kbd> Brake</div>
+        <div><kbd>&uarr;</kbd> Jump</div>
+        <div><kbd>&darr;</kbd> / <kbd>S</kbd> Cloak</div>
+        <div><kbd>P</kbd> Pause</div>
+        <div><kbd>R</kbd> Restart</div>
+        <div><kbd>C</kbd> Cut</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== GARAGE ===== -->
+  <div id="garage" class="screen hidden">
+    <div class="panel big">
+      <div class="garage-top">
+        <button id="garage-back" class="btn secondary" type="button">Back</button>
+        <h1 class="logo garage-title">Garage</h1>
+        <div class="menu-coins"><span class="coin-icon"></span><span id="garage-coin-count">0</span></div>
+      </div>
+      <div class="garage-bay">
+        <button class="arrow" id="garage-veh-prev" type="button">&lsaquo;</button>
+        <canvas id="garage-preview" width="520" height="220"></canvas>
+        <button class="arrow" id="garage-veh-next" type="button">&rsaquo;</button>
+      </div>
+      <div class="garage-plate">
+        <div class="garage-name" id="garage-veh-name"></div>
+        <div class="sel-sub" id="garage-veh-sub"></div>
+      </div>
+      <div id="upgrade-list"></div>
+    </div>
+  </div>
+
+  <!-- ===== PAUSE ===== -->
+  <div id="pause" class="screen hidden">
+    <div class="panel">
+      <h2>Paused</h2>
+      <div class="btn-col">
+        <button id="resume-btn" class="btn primary" type="button">Resume</button>
+        <button id="restart-btn" class="btn secondary" type="button">Restart</button>
+        <button id="quit-btn" class="btn secondary" type="button">Main Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== GAME OVER ===== -->
+  <div id="gameover" class="screen hidden">
+    <div class="panel">
+      <h2 id="go-title">Crashed!</h2>
+      <p id="go-reason" class="tagline"></p>
+      <div class="go-stats">
+        <div><span>Distance</span><b id="go-dist">0 m</b></div>
+        <div><span>Coins earned</span><b id="go-coins">0</b></div>
+        <div><span>Rescues</span><b id="go-rescues">0</b></div>
+        <div><span id="go-best-label">Best</span><b id="go-best">0 m</b></div>
+      </div>
+      <div id="go-goals" class="goal-row"></div>
+      <div id="go-newbest" class="newbest hidden">New record!</div>
+      <div class="btn-col">
+        <button id="go-retry" class="btn primary" type="button">Try Again</button>
+        <button id="go-garage" class="btn secondary" type="button">Garage</button>
+        <button id="go-menu" class="btn secondary" type="button">Main Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <button id="mute-btn" type="button">Music: On</button>
+  <script src="game.js?v=multiplayer-v2"></script>
+</body>
+</html>

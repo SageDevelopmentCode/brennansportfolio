@@ -5,7 +5,14 @@ export async function PathAwareHeader() {
   const headerStore = await headers();
   const pathname = headerStore.get("x-pathname") ?? "";
 
-  if (pathname === "/squad" || pathname.startsWith("/squad/")) {
+  if (
+    pathname === "/squad" ||
+    pathname.startsWith("/squad/") ||
+    pathname === "/hillrush" ||
+    pathname.startsWith("/hillrush/") ||
+    pathname === "/quack-attack" ||
+    pathname === "/flingo"
+  ) {
     return null;
   }
 

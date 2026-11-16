@@ -7069,6 +7069,17 @@ body:has(.family-calendar-theme) header nav a[href="/signup"] {
   }
 }
 
+/* Flingo — pure yeet, zero learning */
+body:has(.flingo-theme) > header {
+  display: none;
+}
+
+.flingo-theme {
+  color-scheme: dark;
+  background-color: #0c4a6e;
+  color: #fff7ed;
+}
+
 /* Rocket Fist — junkyard arena */
 body:has(.rocketfist-theme) > header {
   display: none;
@@ -8067,4 +8078,294 @@ body:has(.rocketfist-theme) > header {
   height: 1px;
   opacity: 0;
   pointer-events: none;
+}
+
+.bible-theme {
+  --bible-bg: #f7f1e6;
+  --bible-ink: #2a2118;
+  --bible-accent: #8a5a2b;
+  --bible-accent-soft: rgba(138, 90, 43, 0.12);
+  --bible-success: #3f6b4e;
+  --bible-success-soft: rgba(63, 107, 78, 0.14);
+  --bible-muted: #6f6458;
+  --bible-border: rgba(42, 33, 24, 0.14);
+  --bible-glass: rgba(255, 252, 247, 0.92);
+  --bible-highlight: rgba(184, 134, 11, 0.22);
+  --bible-scripture: #b8860b;
+  --bible-scripture-number: #5c3d1e;
+
+  color-scheme: light;
+  background-color: var(--bible-bg);
+  color: var(--bible-ink);
+}
+
+.bible-bg {
+  min-height: 100%;
+  background-color: var(--bible-bg);
+  background-image:
+    radial-gradient(ellipse 70% 50% at 0% 0%, rgba(138, 90, 43, 0.12) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 40% at 100% 10%, rgba(63, 107, 78, 0.1) 0%, transparent 50%),
+    radial-gradient(ellipse 45% 30% at 50% 100%, rgba(196, 149, 74, 0.1) 0%, transparent 50%);
+}
+
+.bible-title {
+  background: linear-gradient(135deg, #6b3e1e 0%, #8a5a2b 48%, #3f6b4e 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.bible-verse {
+  scroll-margin-block: 30vh;
+}
+
+.bible-verse mark {
+  color: inherit;
+  font-weight: inherit;
+}
+
+.bible-verse [data-scripture] {
+  user-select: text;
+}
+
+body:has(.bible-theme) header nav a,
+body:has(.bible-theme) header nav button {
+  border-color: rgba(138, 90, 43, 0.28) !important;
+  color: #2a2118 !important;
+  background: rgba(255, 252, 247, 0.9);
+  backdrop-filter: blur(8px);
+}
+
+body:has(.bible-theme) header nav a:hover,
+body:has(.bible-theme) header nav button:hover {
+  background: rgba(138, 90, 43, 0.1) !important;
+  color: #6b3e1e !important;
+}
+
+body:has(.bible-theme) header nav span {
+  background: rgba(138, 90, 43, 0.12) !important;
+  color: #6b3e1e !important;
+}
+
+body:has(.bible-theme) header nav a[href="/signup"] {
+  background: linear-gradient(135deg, #8a5a2b, #3f6b4e) !important;
+  color: white !important;
+  border-color: transparent !important;
+  box-shadow: 0 4px 20px rgba(138, 90, 43, 0.3);
+}
+
+/* Rush Motors — Hill Rush car lot */
+.dealership-theme {
+  --lot-bg: #e7f6ea;
+  --lot-ink: #14261c;
+  --lot-accent: #15803d;
+  --lot-accent-soft: rgba(21, 128, 61, 0.12);
+  --lot-chrome: #d7dde3;
+  --lot-muted: #4b5563;
+  --lot-border: rgba(20, 38, 28, 0.14);
+  --lot-glass: rgba(255, 255, 255, 0.92);
+  --lot-sky: #d7eefc;
+  --lot-sold: #b45309;
+
+  color-scheme: light;
+  background-color: var(--lot-bg);
+  color: var(--lot-ink);
+}
+
+.dealership-bg {
+  min-height: 100%;
+  background-color: var(--lot-bg);
+  background-image:
+    radial-gradient(ellipse 70% 45% at 0% 0%, rgba(215, 221, 227, 0.85) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 40% at 100% 10%, rgba(34, 197, 94, 0.16) 0%, transparent 50%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.35), transparent 28%);
+}
+
+.dealership-title {
+  background: linear-gradient(135deg, #14532d 0%, #15803d 42%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.dealership-card {
+  border: 1px solid var(--lot-border);
+  border-radius: 1.25rem;
+  background: var(--lot-glass);
+  box-shadow: 0 10px 28px rgba(20, 38, 28, 0.06);
+}
+
+button.dealership-card {
+  cursor: pointer;
+  transition: transform 160ms ease, border-color 160ms ease;
+}
+
+button.dealership-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--lot-accent);
+}
+
+button.dealership-card:focus-visible,
+.dealership-chip:focus-visible,
+.dealership-btn-primary:focus-visible,
+.dealership-btn-ghost:focus-visible,
+.dealership-input:focus-visible {
+  outline: 2px solid var(--lot-accent);
+  outline-offset: 2px;
+}
+
+.dealership-input {
+  width: 100%;
+  min-height: 44px;
+  border-radius: 0.9rem;
+  border: 1px solid var(--lot-border);
+  background: white;
+  padding: 0.55rem 0.9rem;
+  font-weight: 600;
+  color: var(--lot-ink);
+}
+
+.dealership-chip,
+.dealership-btn-ghost,
+.dealership-btn-primary {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 0.4rem 0.95rem;
+  font-weight: 700;
+}
+
+.dealership-chip,
+.dealership-btn-ghost {
+  border: 1px solid var(--lot-border);
+  background: white;
+  color: var(--lot-ink);
+}
+
+.dealership-chip-on {
+  border-color: transparent;
+  background: var(--lot-accent);
+  color: white;
+}
+
+.dealership-btn-primary {
+  border: 2px solid #14532d;
+  background: linear-gradient(180deg, #22c55e 0%, #15803d 100%);
+  color: white;
+  box-shadow: 0 3px 0 #14532d;
+}
+
+.dealership-sold-badge {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  border-radius: 999px;
+  background: var(--lot-sold);
+  color: white;
+  padding: 0.2rem 0.65rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.dealership-specs {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.dealership-spec-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px dashed var(--lot-border);
+}
+
+.dealership-spec-row:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.dealership-form-grid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 480px) {
+  .dealership-form-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.dealership-form-span {
+  grid-column: 1 / -1;
+}
+
+.dealership-field-error {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #b91c1c;
+}
+
+.dealership-status-badge {
+  display: inline-block;
+  margin-top: 0.25rem;
+  border-radius: 999px;
+  padding: 0.1rem 0.5rem;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.dealership-status-done {
+  background: rgba(22, 163, 74, 0.15);
+  color: #15803d;
+}
+
+.dealership-status-restocked {
+  background: rgba(100, 116, 139, 0.2);
+  color: #475569;
+}
+
+.dealership-color-swatch {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 0.25rem;
+  border: 2px solid rgba(0, 0, 0, 0.12);
+  flex-shrink: 0;
+}
+
+.dealership-catalog-frame {
+  position: fixed;
+  left: -1200px;
+  top: 0;
+  width: 480px;
+  height: 320px;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.dealership-sidebar-panel {
+  animation: dealership-sidebar-in 0.25s ease-out;
+  background: var(--lot-glass);
+  border-left: 1px solid var(--lot-border);
+}
+
+@keyframes dealership-sidebar-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0.6;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
