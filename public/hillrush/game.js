@@ -9426,7 +9426,7 @@
       sentOut: false,
       peers: [],
       poseAcc: 0,
-      releaseAt: opts.mode === 'chase' ? performance.now() + 5000 : 0,
+      releaseAt: opts.mode === 'chase' ? performance.now() + 2000 : 0,
     };
     newWorld(def, stage, { stock: true });
     world.def.color = match.color;
@@ -9438,7 +9438,7 @@
     showScreens('hud');
     initAudio();
     const banner = match.mode === 'chase'
-      ? (match.role === 'hunter' ? 'Wait 5' : 'Head start!')
+      ? (match.role === 'hunter' ? 'Wait 2' : 'Head start!')
       : 'Last alive!';
     floater(banner, W / 2, H * 0.32, 'bonus');
   }

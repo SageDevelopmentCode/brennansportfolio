@@ -21,7 +21,9 @@ import {
   joinHillRushRoom,
   leaveHillRushRoom,
   loadHillRushNick,
+  reopenHillRushRoom,
   saveHillRushNick,
+  setHillRushRole,
   setHillRushRoom,
   setHillRushVehicle,
   startHillRushRoom,
@@ -37,6 +39,12 @@ type Pose = {
   alive: boolean;
   dist: number;
 };
+
+type ChatLine = { id: number; nickname: string; text: string };
+
+function cleanChatText(value: string, max: number) {
+  return value.replace(/[\u0000-\u001F]/g, "").trim().slice(0, max);
+}
 
 const EMPTY_CATALOG = {
   vehicles: [{ id: "jeep", name: "Jeep" }] as HillRushOption[],
@@ -84,6 +92,7 @@ export function HillRushMultiplayer() {
   const aliveRef = useRef(true);
   const refreshRef = useRef<() => Promise<void>>(async () => {});
   const channelRef = useRef<ReturnType<typeof supabase.channel> | null>(null);
+  const chatSeq = useRef(0);
 
   const [phase, setPhase] = useState<Phase>("closed");
   const [nickname, setNickname] = useState("");
@@ -98,6 +107,8 @@ export function HillRushMultiplayer() {
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
+  const [chat, setChat] = useState<ChatLine[]>([]);
+  const [draft, setDraft] = useState("");
 
   useEffect(() => {
     phaseRef.current = phase;
@@ -164,7 +175,23 @@ export function HillRushMultiplayer() {
         setPhase("countdown");
       }
       if (snapshot.room.status === "done") {
+        startedRef.current = false;
+        droveRef.current = false;
         setPhase("results");
+      }
+      if (
+        snapshot.room.status === "lobby" &&
+        (phaseRef.current === "results" ||
+          phaseRef.current === "racing" ||
+          phaseRef.current === "countdown")
+      ) {
+        phaseRef.current = "lobby";
+        startedRef.current = false;
+        droveRef.current = false;
+        outSentRef.current = false;
+        tagsRef.current = new Set();
+        setPhase("lobby");
+        postToGame(iframeRef.current, { type: "stop" });
       }
       if (phaseRef.current === "racing" || phaseRef.current === "countdown") {
         pushPeers();
@@ -187,6 +214,18 @@ export function HillRushMultiplayer() {
     const nick = loadHillRushNick();
     if (nick) setNickname(nick);
   }, []);
+
+  const appendChat = useCallback((name: string, text: string) => {
+    const clean = cleanChatText(text, 80);
+    const nickname = cleanChatText(name, 16) || "Driver";
+    if (!clean) return;
+    setChat((lines) => [...lines.slice(-39), { id: ++chatSeq.current, nickname, text: clean }]);
+  }, []);
+
+  useEffect(() => {
+    setChat([]);
+    setDraft("");
+  }, [room?.id]);
 
   useEffect(() => {
     const onMessage = (event: MessageEvent) => {
@@ -272,16 +311,16 @@ export function HillRushMultiplayer() {
       }
 
       if (data.type === "leave") {
-        void leaveHillRushRoom(supabase, current.id).then((snapshot) => {
-          if (snapshot.ok && snapshot.room?.status === "done") {
-            applySnapshot(snapshot);
-            return;
-          }
-          startedRef.current = false;
-          setRoom(null);
-          setPlayers([]);
-          setPhase("closed");
-        });
+        if (current.status === "racing" && aliveRef.current && !outSentRef.current) {
+          outSentRef.current = true;
+          aliveRef.current = false;
+          void hillRushOut(
+            supabase,
+            current.id,
+            lastDistRef.current,
+            "left",
+          ).then(applySnapshot);
+        }
       }
     };
 
@@ -289,8 +328,9 @@ export function HillRushMultiplayer() {
     return () => window.removeEventListener("message", onMessage);
   }, [applySnapshot, supabase]);
 
+  const roomId = room?.id;
   useEffect(() => {
-    if (!room || !userId) return;
+    if (!roomId || !userId) return;
     let gone = false;
     const client = supabase;
     let channel: ReturnType<typeof supabase.channel> | null = null;
@@ -299,7 +339,7 @@ export function HillRushMultiplayer() {
       const { data: sessionData } = await client.auth.getSession();
       await client.realtime.setAuth(sessionData.session?.access_token ?? null);
       if (gone) return;
-      channel = client.channel(hillRushChannelTopic(room.id), {
+      channel = client.channel(hillRushChannelTopic(roomId), {
         config: {
           private: true,
           broadcast: { self: false },
@@ -334,6 +374,11 @@ export function HillRushMultiplayer() {
             postToGame(iframeRef.current, { type: "tagged" });
           }
         })
+        .on("broadcast", { event: "chat" }, ({ payload }) => {
+          const body = payload as { nickname?: string; text?: string };
+          if (!body?.text) return;
+          appendChat(body.nickname || "Driver", body.text);
+        })
         .on("presence", { event: "sync" }, () => {
           const state = channel?.presenceState() ?? {};
           presenceRef.current = new Set(Object.keys(state));
@@ -344,7 +389,7 @@ export function HillRushMultiplayer() {
             event: "*",
             schema: "public",
             table: "hillrush_players",
-            filter: `room_id=eq.${room.id}`,
+            filter: `room_id=eq.${roomId}`,
           },
           () => {
             void refreshRef.current();
@@ -356,7 +401,7 @@ export function HillRushMultiplayer() {
             event: "UPDATE",
             schema: "public",
             table: "hillrush_rooms",
-            filter: `id=eq.${room.id}`,
+            filter: `id=eq.${roomId}`,
           },
           () => {
             void refreshRef.current();
@@ -377,10 +422,10 @@ export function HillRushMultiplayer() {
       channelRef.current = null;
       if (channel) void client.removeChannel(channel);
     };
-  }, [pushPeers, room, supabase, userId]);
+  }, [appendChat, pushPeers, roomId, supabase, userId]);
 
   useEffect(() => {
-    if (phase !== "lobby" && phase !== "countdown" && phase !== "racing") return;
+    if (phase !== "lobby" && phase !== "countdown" && phase !== "racing" && phase !== "results") return;
     const timer = window.setInterval(() => {
       void refreshRef.current();
     }, 2000);
@@ -580,10 +625,46 @@ export function HillRushMultiplayer() {
     else applySnapshot(snapshot);
   };
 
+  const sendChat = () => {
+    const text = cleanChatText(draft, 80);
+    if (!text) return;
+    const name = nickRef.current.trim() || "Driver";
+    appendChat(name, text);
+    setDraft("");
+    void channelRef.current?.send({
+      type: "broadcast",
+      event: "chat",
+      payload: { nickname: name, text },
+    });
+  };
+
+  const onReopen = async () => {
+    if (!room) return;
+    setBusy(true);
+    setError(null);
+    const snapshot = await reopenHillRushRoom(supabase, room.id);
+    setBusy(false);
+    if (!snapshot.ok) setError(hillRushError(snapshot.code, snapshot.message));
+    else applySnapshot(snapshot);
+  };
+
+  const onRoleChange = async (role: "hunter" | "runner") => {
+    if (!room || room.status !== "lobby") return;
+    const snapshot = await setHillRushRole(supabase, room.id, role);
+    if (!snapshot.ok) setError(hillRushError(snapshot.code, snapshot.message));
+    else applySnapshot(snapshot);
+  };
+
   const onStart = async () => {
     if (!room) return;
     setBusy(true);
     setError(null);
+    startedRef.current = false;
+    droveRef.current = false;
+    outSentRef.current = false;
+    tagsRef.current = new Set();
+    posesRef.current = {};
+    aliveRef.current = true;
     const snapshot = await startHillRushRoom(supabase, room.id);
     setBusy(false);
     if (!snapshot.ok) {
@@ -600,12 +681,14 @@ export function HillRushMultiplayer() {
 
   const closeOverlay = async () => {
     const current = roomRef.current;
-    if (current && (phase === "lobby" || phase === "racing" || phase === "countdown")) {
+    if (current && phase !== "gate") {
       await leaveHillRushRoom(supabase, current.id);
     }
     postToGame(iframeRef.current, { type: "stop" });
     startedRef.current = false;
     droveRef.current = false;
+    setChat([]);
+    setDraft("");
     setRoom(null);
     setPlayers([]);
     setPhase("closed");
@@ -613,6 +696,9 @@ export function HillRushMultiplayer() {
   };
 
   const isHost = !!room && room.hostId === userId;
+  const hunters = players.filter((player) => player.role === "hunter").length;
+  const runners = players.filter((player) => player.role === "runner").length;
+  const chaseReady = !room || room.mode !== "chase" || (hunters > 0 && runners > 0);
   const stageName =
     catalog.stages.find((stage) => stage.id === (room?.stageId ?? stageId))?.name ??
     room?.stageId ??
@@ -642,6 +728,7 @@ export function HillRushMultiplayer() {
       ) : null}
 
       {phase === "racing" ? (
+        <>
         <div className="pointer-events-none fixed inset-x-0 top-3 z-30 flex justify-center px-3">
           <div className="pointer-events-auto flex max-w-full items-center gap-2 overflow-x-auto rounded-full bg-[#3d2a12]/80 px-3 py-2 text-sm font-bold text-white">
             {players.map((player) => (
@@ -663,6 +750,10 @@ export function HillRushMultiplayer() {
             </button>
           </div>
         </div>
+        <div className="fixed bottom-3 left-3 z-30">
+          <ChatBox lines={chat} draft={draft} onDraft={setDraft} onSend={sendChat} compact />
+        </div>
+        </>
       ) : null}
 
       {phase === "gate" || phase === "lobby" || phase === "countdown" || phase === "results" ? (
@@ -674,14 +765,16 @@ export function HillRushMultiplayer() {
                 <p className="my-4 text-7xl font-bold text-[#e8521a]">{count > 0 ? count : "Go"}</p>
                 <p className="text-sm text-[#7a4e1d]">
                   {room?.mode === "chase"
-                    ? `Chase on ${stageName}. Runners go first. The hunter waits 5 seconds.`
+                    ? `Chase on ${stageName}. Runners go first. The chaser waits 2 seconds.`
                     : `Last alive on ${stageName}`}
                 </p>
+                <ChatBox lines={chat} draft={draft} onDraft={setDraft} onSend={sendChat} />
               </>
             ) : null}
 
             {phase === "results" && room ? (
               <>
+                <p className="text-sm font-bold text-[#7a4e1d]">Room {room.code}</p>
                 <h2 className="text-3xl font-bold text-[#c0391b]">Finish</h2>
                 <p className="mt-2 text-lg font-bold">{winnerLine(room, players)}</p>
                 <ul className="mt-4 space-y-2 text-left">
@@ -699,14 +792,30 @@ export function HillRushMultiplayer() {
                           />
                           {player.nickname}
                           {player.userId === room.winnerId ? " · winner" : ""}
-                          {player.role === "hunter" ? " · hunter" : ""}
+                          {player.role === "hunter" ? " · chaser" : ""}
                         </span>
                         <b>{player.distance} m</b>
                       </li>
                     ))}
                 </ul>
-                <button type="button" className={primaryBtn} onClick={() => void closeOverlay()}>
-                  Main menu
+                <ChatBox lines={chat} draft={draft} onDraft={setDraft} onSend={sendChat} />
+                {isHost ? (
+                  <button
+                    type="button"
+                    className={primaryBtn}
+                    disabled={busy || players.length < 2 || !chaseReady}
+                    onClick={() => void onStart()}
+                  >
+                    Play again
+                  </button>
+                ) : (
+                  <p className="mt-3 text-sm text-[#7a4e1d]">Waiting in the room.</p>
+                )}
+                <button type="button" className={secondaryBtn} disabled={busy} onClick={() => void onReopen()}>
+                  Back to room
+                </button>
+                <button type="button" className={secondaryBtn} onClick={() => void closeOverlay()}>
+                  Leave
                 </button>
               </>
             ) : null}
@@ -771,7 +880,7 @@ export function HillRushMultiplayer() {
                   </select>
                 </label>
                 <p className="mt-2 text-xs text-[#7a4e1d]">
-                  You pick your own car. No garage upgrades. Cars do not bump. In chase, runners get a 5 second head start, then the host hunts.
+                  You pick your own car. No garage upgrades. Cars do not bump. In chase, anyone can be the chaser. Runners get a 2 second head start.
                 </p>
                 <div className="mt-4 flex flex-col gap-2">
                   <button type="button" className={primaryBtn} disabled={busy} onClick={() => void onCreate()}>
@@ -802,6 +911,11 @@ export function HillRushMultiplayer() {
               <>
                 <p className="text-sm font-bold text-[#7a4e1d]">Room code</p>
                 <p className="text-5xl font-bold tracking-[0.2em] text-[#e8521a]">{room.code}</p>
+                {room.winnerId ? (
+                  <p className="mt-2 text-sm font-bold text-[#c0391b]">
+                    Last race: {winnerLine(room, players)}
+                  </p>
+                ) : null}
                 <p className="mt-1 text-sm text-[#7a4e1d]">
                   {players.length} / 4 drivers
                 </p>
@@ -857,6 +971,27 @@ export function HillRushMultiplayer() {
                     ))}
                   </select>
                 </label>
+                {room.mode === "chase" ? (
+                  <button
+                    type="button"
+                    className={
+                      players.find((player) => player.userId === userId)?.role === "hunter"
+                        ? primaryBtn
+                        : secondaryBtn
+                    }
+                    onClick={() =>
+                      void onRoleChange(
+                        players.find((player) => player.userId === userId)?.role === "hunter"
+                          ? "runner"
+                          : "hunter",
+                      )
+                    }
+                  >
+                    {players.find((player) => player.userId === userId)?.role === "hunter"
+                      ? "I'm the chaser"
+                      : "I'm running"}
+                  </button>
+                ) : null}
                 <ul className="mt-4 space-y-2 text-left">
                   {players.map((player) => (
                     <li key={player.userId} className="rounded-xl bg-white/70 px-3 py-2 font-bold">
@@ -866,22 +1001,32 @@ export function HillRushMultiplayer() {
                       />
                       {player.nickname}
                       {player.userId === room.hostId ? " · host" : ""}
-                      {player.role === "hunter" ? " · hunter" : ""}
+                      {room.mode === "chase"
+                        ? player.role === "hunter"
+                          ? " · chaser"
+                          : " · runner"
+                        : ""}
                       {" · "}
                       {catalog.vehicles.find((vehicle) => vehicle.id === player.vehicleId)?.name ??
                         player.vehicleId}
                     </li>
                   ))}
                 </ul>
+                <ChatBox lines={chat} draft={draft} onDraft={setDraft} onSend={sendChat} />
                 {isHost ? (
                   <button
                     type="button"
                     className={primaryBtn}
-                    disabled={busy || players.length < 2}
+                    disabled={busy || players.length < 2 || !chaseReady}
                     onClick={() => void onStart()}
                   >
                     Start
                   </button>
+                ) : null}
+                {room.mode === "chase" && !chaseReady ? (
+                  <p className="mt-2 text-sm text-[#7a4e1d]">
+                    Pick a chaser and someone to run.
+                  </p>
                 ) : null}
                 <button type="button" className={secondaryBtn} onClick={() => void closeOverlay()}>
                   Leave room
@@ -903,3 +1048,60 @@ const primaryBtn =
   "mt-3 w-full rounded-2xl border-[3px] border-[#1b5e22] bg-gradient-to-b from-[#7ee36a] to-[#2e9a3a] px-4 py-3 text-lg font-bold text-white shadow-[0_5px_0_#1b5e22] disabled:opacity-50";
 const secondaryBtn =
   "mt-2 w-full rounded-2xl border-[3px] border-[#8a6300] bg-gradient-to-b from-[#ffe08a] to-[#f0b429] px-4 py-3 text-lg font-bold text-[#3d2a12] shadow-[0_5px_0_#8a6300]";
+
+function ChatBox({
+  lines,
+  draft,
+  onDraft,
+  onSend,
+  compact,
+}: {
+  lines: ChatLine[];
+  draft: string;
+  onDraft: (value: string) => void;
+  onSend: () => void;
+  compact?: boolean;
+}) {
+  return (
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+        onSend();
+      }}
+      className={
+        compact
+          ? "pointer-events-auto w-64 rounded-2xl bg-[#3d2a12]/85 p-2 text-left text-white"
+          : "mt-4 text-left"
+      }
+    >
+      <ul
+        className={
+          compact
+            ? "mb-1 max-h-20 space-y-0.5 overflow-y-auto text-xs"
+            : "mb-2 max-h-28 space-y-1 overflow-y-auto rounded-xl bg-white/70 px-3 py-2 text-sm"
+        }
+      >
+        {lines.length === 0 ? (
+          <li className={compact ? "text-white/70" : "text-[#7a4e1d]"}>Say something</li>
+        ) : (
+          lines.slice(-8).map((line) => (
+            <li key={line.id}>
+              <b>{line.nickname}:</b> {line.text}
+            </li>
+          ))
+        )}
+      </ul>
+      <input
+        value={draft}
+        maxLength={80}
+        onChange={(event) => onDraft(event.target.value)}
+        placeholder="Message"
+        className={
+          compact
+            ? "w-full rounded-lg bg-white/90 px-2 py-1 text-sm text-[#3d2a12]"
+            : fieldClass
+        }
+      />
+    </form>
+  );
+}

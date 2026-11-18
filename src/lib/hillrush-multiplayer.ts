@@ -48,6 +48,8 @@ const ERRORS: Record<string, string> = {
   not_host: "Only the host can do that.",
   not_lobby: "That room already started.",
   need_players: "Wait for at least one friend.",
+  need_chaser: "Someone has to be the chaser.",
+  need_runner: "Someone has to run.",
   not_racing: "The race is not running.",
   not_hunter: "Only the hunter can tag.",
   not_member: "You are not in this room.",
@@ -189,6 +191,21 @@ export function joinHillRushRoom(
     p_nickname: nickname,
     p_vehicle_id: vehicleId,
   });
+}
+
+export function setHillRushRole(
+  supabase: SupabaseClient,
+  roomId: string,
+  role: HillRushRole,
+) {
+  return callRoom(supabase, "hillrush_set_role", {
+    p_room_id: roomId,
+    p_role: role,
+  });
+}
+
+export function reopenHillRushRoom(supabase: SupabaseClient, roomId: string) {
+  return callRoom(supabase, "hillrush_reopen_room", { p_room_id: roomId });
 }
 
 export function setHillRushVehicle(
