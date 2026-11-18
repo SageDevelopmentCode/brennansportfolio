@@ -9246,24 +9246,27 @@
     const cloakEl = $('pedal-cloak');
     if (cloakEl) cloakEl.classList.toggle('down', input.cloak);
   }
+  function applyDriveKey(code, down, repeat) {
+    if (code === 'ArrowRight' || code === 'KeyD') input.kGas = down;
+    else if (code === 'ArrowLeft' || code === 'KeyA') input.kBrake = down;
+    else if (code === 'ArrowDown' || code === 'KeyS') {
+      input.kStealth = down;
+      if (down && ghostSelected()) input.kCloak = true;
+      if (!down) input.kCloak = false;
+    } else if (code === 'ArrowUp' || code === 'KeyW') {
+      input.jumpHold = down;
+      if (down && !repeat) input.jump = true;
+      $('pedal-jump').classList.toggle('down', down);
+    } else return false;
+    syncInput();
+    return true;
+  }
   window.addEventListener('keydown', (e) => {
     if (catalogMode) return;
     initAudio();
     const k = e.code;
     if (e.ctrlKey && e.shiftKey && k === 'KeyD') { cycleUnbreakableVariant(); e.preventDefault(); }
-    else if (k === 'ArrowRight' || k === 'KeyD') { input.kGas = true; e.preventDefault(); }
-    else if (k === 'ArrowLeft' || k === 'KeyA') { input.kBrake = true; e.preventDefault(); }
-    else if (k === 'ArrowDown' || k === 'KeyS') {
-      input.kStealth = true;
-      if (ghostSelected()) input.kCloak = true;
-      e.preventDefault();
-    }
-    else if (k === 'ArrowUp') {
-      e.preventDefault();
-      input.jumpHold = true;
-      if (!e.repeat) input.jump = true;
-      $('pedal-jump').classList.add('down');
-    }
+    else if (applyDriveKey(k, true, e.repeat)) e.preventDefault();
     else if ((k === 'Escape' || k === 'KeyP') && !e.repeat) { state === 'play' ? pause() : state === 'pause' && resume(); }
     else if (k === 'KeyM' && !e.repeat) toggleMusic();
     else if (k === 'KeyC' && !e.repeat) { cutTrailer(); e.preventDefault(); }
@@ -9277,15 +9280,11 @@
   });
   window.addEventListener('keyup', (e) => {
     if (catalogMode) return;
-    const k = e.code;
-    if (k === 'ArrowRight' || k === 'KeyD') input.kGas = false;
-    else if (k === 'ArrowLeft' || k === 'KeyA') input.kBrake = false;
-    else if (k === 'ArrowDown' || k === 'KeyS') { input.kStealth = false; input.kCloak = false; }
-    else if (k === 'ArrowUp') { input.jumpHold = false; $('pedal-jump').classList.remove('down'); }
-    syncInput();
+    applyDriveKey(e.code, false, false);
   });
   window.addEventListener('blur', () => {
     if (catalogMode) return;
+    if (match && match.active) return;
     input.kGas = input.kBrake = input.pGas = input.pBrake = input.jump = input.jumpHold = input.kCloak = input.pCloak = input.cloak = false;
     input.kStealth = input.pStealth = input.stealthHold = false;
     $('pedal-jump').classList.remove('down');
@@ -9391,6 +9390,7 @@
         vehicleId: p.vehicleId || 'jeep',
         role: p.role === 'hunter' ? 'hunter' : 'runner',
         alive: p.alive !== false,
+        seen: !!(p.seen || (old && old.seen)),
         x, y, a,
         drawX: old ? old.drawX : x,
         drawY: old ? old.drawY : y,
@@ -9426,6 +9426,7 @@
       sentOut: false,
       peers: [],
       poseAcc: 0,
+      releaseAt: opts.mode === 'chase' ? performance.now() + 5000 : 0,
     };
     newWorld(def, stage, { stock: true });
     world.def.color = match.color;
@@ -9436,7 +9437,9 @@
     acc = 0;
     showScreens('hud');
     initAudio();
-    const banner = match.mode === 'chase' ? (match.role === 'hunter' ? 'Hunt!' : 'Run!') : 'Last alive!';
+    const banner = match.mode === 'chase'
+      ? (match.role === 'hunter' ? 'Wait 5' : 'Head start!')
+      : 'Last alive!';
     floater(banner, W / 2, H * 0.32, 'bonus');
   }
   function applyTag() {
@@ -9464,10 +9467,11 @@
         cam.y += (lead.drawY + 1.2 - cam.y) * Math.min(1, dt * 2.2);
       }
     }
-    if (state === 'play' && match.role === 'hunter' && match.alive) {
+    const chaseHold = match.role === 'hunter' && match.releaseAt && performance.now() < match.releaseAt;
+    if (state === 'play' && match.role === 'hunter' && match.alive && !chaseHold) {
       const b = world.body;
       for (const p of match.peers) {
-        if (!p.alive || p.role === 'hunter' || p.taggedLocal) continue;
+        if (!p.seen || !p.alive || p.role === 'hunter' || p.taggedLocal) continue;
         if (Math.hypot(p.x - b.x, p.y - b.y) < 2.5) {
           p.taggedLocal = true;
           postMatch({ type: 'tag', targetId: p.id });
@@ -9512,6 +9516,7 @@
   function drawMatchCars() {
     if (!match || !match.active || !match.peers) return;
     for (const p of match.peers) {
+      if (!p.seen) continue;
       ctx.save();
       ctx.globalAlpha = p.alive ? 0.95 : 0.35;
       drawCar(ctx, peerCar(p));
@@ -9525,8 +9530,18 @@
     ctx.font = 'bold 15px Trebuchet MS, sans-serif';
     ctx.textBaseline = 'middle';
     const pad = 46;
+    if (match.mode === 'chase' && match.releaseAt) {
+      const left = Math.ceil((match.releaseAt - performance.now()) / 1000);
+      if (left > 0) {
+        ctx.textAlign = 'center';
+        ctx.fillStyle = '#fff8e1';
+        ctx.font = 'bold 28px Trebuchet MS, sans-serif';
+        ctx.fillText(match.role === 'hunter' ? `Wait ${left}` : `Head start ${left}`, W / 2, 86);
+        ctx.font = 'bold 15px Trebuchet MS, sans-serif';
+      }
+    }
     for (const p of match.peers) {
-      if (!p.alive) continue;
+      if (!p.alive || !p.seen) continue;
       const sp = toScreen(p.drawX, p.drawY);
       const inside = sp.x > pad && sp.x < W - pad && sp.y > 70 && sp.y < H - pad;
       ctx.textAlign = 'center';
@@ -9563,6 +9578,7 @@
       return;
     }
     if (data.type === 'start') { startLockedRun(data); return; }
+    if (data.type === 'key') { applyDriveKey(String(data.code || ''), !!data.down, !!data.repeat); return; }
     if (data.type === 'peers') { setMatchPeers(data.peers || []); return; }
     if (data.type === 'tagged') { applyTag(); return; }
     if (data.type === 'stop') {
@@ -9577,6 +9593,15 @@
   function frame(now) {
     const dt = Math.min(0.05, (now - last) / 1000);
     last = now;
+    const heldDrive = !!(match && match.active && match.role === 'hunter' && match.releaseAt && performance.now() < match.releaseAt);
+    const savedDrive = heldDrive
+      ? { kGas: input.kGas, kBrake: input.kBrake, pGas: input.pGas, pBrake: input.pBrake, jump: input.jump, jumpHold: input.jumpHold }
+      : null;
+    if (savedDrive) {
+      input.kGas = input.kBrake = input.pGas = input.pBrake = false;
+      input.jump = input.jumpHold = false;
+      syncInput();
+    }
     if (state === 'play' || state === 'crashing') {
       acc += dt * (state === 'crashing' ? 0.4 : 1);
       let n = 0;
@@ -9594,6 +9619,15 @@
     if (match && match.active) matchFrame(dt);
     if (world && world.body) enforceSpeedCap(world.body, world.wheels);
     render();
+    if (savedDrive) {
+      input.kGas = savedDrive.kGas;
+      input.kBrake = savedDrive.kBrake;
+      input.pGas = savedDrive.pGas;
+      input.pBrake = savedDrive.pBrake;
+      input.jump = savedDrive.jump;
+      input.jumpHold = savedDrive.jumpHold;
+      syncInput();
+    }
     scheduleMusic();
     scheduleBagpipes();
     requestAnimationFrame(frame);

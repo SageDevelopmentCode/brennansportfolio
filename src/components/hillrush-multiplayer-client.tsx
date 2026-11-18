@@ -23,6 +23,7 @@ import {
   loadHillRushNick,
   saveHillRushNick,
   setHillRushRoom,
+  setHillRushVehicle,
   startHillRushRoom,
 } from "@/lib/hillrush-multiplayer";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -126,9 +127,10 @@ export function HillRushMultiplayer() {
           id: player.userId,
           nickname: player.nickname,
           color: player.color,
-          vehicleId: current.vehicleId,
+          vehicleId: player.vehicleId || "jeep",
           role: player.role,
           alive: player.alive && (pose ? pose.alive : true),
+          seen: !!pose,
           x: pose?.x ?? 0,
           y: pose?.y ?? 2,
           a: pose?.a ?? 0,
@@ -148,11 +150,13 @@ export function HillRushMultiplayer() {
       setPlayers(snapshot.players);
       setMode(snapshot.room.mode);
       setStageId(snapshot.room.stageId);
-      setVehicleId(snapshot.room.vehicleId);
       roomRef.current = snapshot.room;
       playersRef.current = snapshot.players;
       const me = snapshot.players.find((player) => player.userId === userIdRef.current);
-      if (me) aliveRef.current = me.alive;
+      if (me) {
+        aliveRef.current = me.alive;
+        if (me.vehicleId) setVehicleId(me.vehicleId);
+      }
 
       if (snapshot.room.status === "racing" && !startedRef.current) {
         startedRef.current = true;
@@ -393,12 +397,14 @@ export function HillRushMultiplayer() {
         postToGame(iframeRef.current, {
           type: "start",
           stageId: current.stageId,
-          vehicleId: current.vehicleId,
+          vehicleId: me.vehicleId || "jeep",
           mode: current.mode,
           role: me.role,
           color: me.color,
           nickname: me.nickname,
         });
+        iframeRef.current?.focus();
+        iframeRef.current?.contentWindow?.focus();
       }
       setPhase("racing");
       return;
@@ -406,6 +412,43 @@ export function HillRushMultiplayer() {
     const timer = window.setTimeout(() => setCount((value) => value - 1), 1000);
     return () => window.clearTimeout(timer);
   }, [count, phase]);
+
+  useEffect(() => {
+    if (phase !== "countdown" && phase !== "racing") return;
+    const driveKeys = new Set([
+      "ArrowRight",
+      "ArrowLeft",
+      "ArrowUp",
+      "ArrowDown",
+      "KeyW",
+      "KeyA",
+      "KeyS",
+      "KeyD",
+    ]);
+    const onKey = (event: KeyboardEvent) => {
+      if (!driveKeys.has(event.code)) return;
+      const target = event.target;
+      if (
+        target instanceof HTMLElement &&
+        (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.tagName === "SELECT")
+      ) {
+        return;
+      }
+      event.preventDefault();
+      postToGame(iframeRef.current, {
+        type: "key",
+        code: event.code,
+        down: event.type === "keydown",
+        repeat: event.repeat,
+      });
+    };
+    window.addEventListener("keydown", onKey);
+    window.addEventListener("keyup", onKey);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("keyup", onKey);
+    };
+  }, [phase]);
 
   useEffect(() => {
     if (phase !== "racing") return;
@@ -497,7 +540,7 @@ export function HillRushMultiplayer() {
     setBusy(true);
     setError(null);
     saveHillRushNick(nick);
-    const snapshot = await joinHillRushRoom(supabase, joinCode, nick);
+    const snapshot = await joinHillRushRoom(supabase, joinCode, nick, vehicleId);
     setBusy(false);
     if (!snapshot.ok || !snapshot.room) {
       setError(hillRushError(snapshot.ok ? "unknown" : snapshot.code, snapshot.ok ? undefined : snapshot.message));
@@ -514,16 +557,25 @@ export function HillRushMultiplayer() {
     setPhase("lobby");
   };
 
-  const onHostChange = async (
-    nextMode: HillRushMode,
-    nextStage: string,
-    nextVehicle: string,
-  ) => {
+  const onHostChange = async (nextMode: HillRushMode, nextStage: string) => {
     setMode(nextMode);
     setStageId(nextStage);
-    setVehicleId(nextVehicle);
     if (!room || room.hostId !== userId || room.status !== "lobby") return;
-    const snapshot = await setHillRushRoom(supabase, room.id, nextMode, nextStage, nextVehicle);
+    const snapshot = await setHillRushRoom(
+      supabase,
+      room.id,
+      nextMode,
+      nextStage,
+      room.vehicleId,
+    );
+    if (!snapshot.ok) setError(hillRushError(snapshot.code, snapshot.message));
+    else applySnapshot(snapshot);
+  };
+
+  const onCarChange = async (nextVehicle: string) => {
+    setVehicleId(nextVehicle);
+    if (!room || room.status !== "lobby") return;
+    const snapshot = await setHillRushVehicle(supabase, room.id, nextVehicle);
     if (!snapshot.ok) setError(hillRushError(snapshot.code, snapshot.message));
     else applySnapshot(snapshot);
   };
@@ -565,10 +617,6 @@ export function HillRushMultiplayer() {
     catalog.stages.find((stage) => stage.id === (room?.stageId ?? stageId))?.name ??
     room?.stageId ??
     stageId;
-  const vehicleName =
-    catalog.vehicles.find((vehicle) => vehicle.id === (room?.vehicleId ?? vehicleId))?.name ??
-    room?.vehicleId ??
-    vehicleId;
 
   return (
     <main className="relative h-[100dvh] w-full overflow-hidden">
@@ -576,6 +624,7 @@ export function HillRushMultiplayer() {
         ref={iframeRef}
         src="/hillrush/index.html"
         title="Brennan's Hill Rush"
+        tabIndex={0}
         className="fixed inset-0 h-full w-full border-0"
         allow="autoplay"
         onLoad={() => postToGame(iframeRef.current, { type: "catalog-request" })}
@@ -624,7 +673,9 @@ export function HillRushMultiplayer() {
                 <p className="text-sm font-bold text-[#7a4e1d]">Get ready</p>
                 <p className="my-4 text-7xl font-bold text-[#e8521a]">{count > 0 ? count : "Go"}</p>
                 <p className="text-sm text-[#7a4e1d]">
-                  {room?.mode === "chase" ? "Chase" : "Last alive"} on {stageName}
+                  {room?.mode === "chase"
+                    ? `Chase on ${stageName}. Runners go first. The hunter waits 5 seconds.`
+                    : `Last alive on ${stageName}`}
                 </p>
               </>
             ) : null}
@@ -720,7 +771,7 @@ export function HillRushMultiplayer() {
                   </select>
                 </label>
                 <p className="mt-2 text-xs text-[#7a4e1d]">
-                  Everyone drives that car with no garage upgrades. Cars do not bump. In chase, the host is the hunter and tags a runner by getting close.
+                  You pick your own car. No garage upgrades. Cars do not bump. In chase, runners get a 5 second head start, then the host hunts.
                 </p>
                 <div className="mt-4 flex flex-col gap-2">
                   <button type="button" className={primaryBtn} disabled={busy} onClick={() => void onCreate()}>
@@ -760,14 +811,14 @@ export function HillRushMultiplayer() {
                       <button
                         type="button"
                         className={room.mode === "survive" ? primaryBtn : secondaryBtn}
-                        onClick={() => void onHostChange("survive", room.stageId, room.vehicleId)}
+                        onClick={() => void onHostChange("survive", room.stageId)}
                       >
                         Last alive
                       </button>
                       <button
                         type="button"
                         className={room.mode === "chase" ? primaryBtn : secondaryBtn}
-                        onClick={() => void onHostChange("chase", room.stageId, room.vehicleId)}
+                        onClick={() => void onHostChange("chase", room.stageId)}
                       >
                         Chase
                       </button>
@@ -776,9 +827,7 @@ export function HillRushMultiplayer() {
                       Hill
                       <select
                         value={room.stageId}
-                        onChange={(event) =>
-                          void onHostChange(room.mode, event.target.value, room.vehicleId)
-                        }
+                        onChange={(event) => void onHostChange(room.mode, event.target.value)}
                         className={fieldClass}
                       >
                         {catalog.stages.map((stage) => (
@@ -788,29 +837,26 @@ export function HillRushMultiplayer() {
                         ))}
                       </select>
                     </label>
-                    <label className="mt-3 block text-sm font-bold">
-                      Car
-                      <select
-                        value={room.vehicleId}
-                        onChange={(event) =>
-                          void onHostChange(room.mode, room.stageId, event.target.value)
-                        }
-                        className={fieldClass}
-                      >
-                        {catalog.vehicles.map((vehicle) => (
-                          <option key={vehicle.id} value={vehicle.id}>
-                            {vehicle.name}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
                   </div>
                 ) : (
                   <p className="mt-3 text-sm text-[#7a4e1d]">
-                    {room.mode === "chase" ? "Chase" : "Last alive"} · {stageName} · {vehicleName}.
-                    Waiting for the host.
+                    {room.mode === "chase" ? "Chase" : "Last alive"} on {stageName}. Waiting for the host.
                   </p>
                 )}
+                <label className="mt-3 block text-left text-sm font-bold">
+                  Your car
+                  <select
+                    value={vehicleId}
+                    onChange={(event) => void onCarChange(event.target.value)}
+                    className={fieldClass}
+                  >
+                    {catalog.vehicles.map((vehicle) => (
+                      <option key={vehicle.id} value={vehicle.id}>
+                        {vehicle.name}
+                      </option>
+                    ))}
+                  </select>
+                </label>
                 <ul className="mt-4 space-y-2 text-left">
                   {players.map((player) => (
                     <li key={player.userId} className="rounded-xl bg-white/70 px-3 py-2 font-bold">
@@ -821,6 +867,9 @@ export function HillRushMultiplayer() {
                       {player.nickname}
                       {player.userId === room.hostId ? " · host" : ""}
                       {player.role === "hunter" ? " · hunter" : ""}
+                      {" · "}
+                      {catalog.vehicles.find((vehicle) => vehicle.id === player.vehicleId)?.name ??
+                        player.vehicleId}
                     </li>
                   ))}
                 </ul>

@@ -23,6 +23,7 @@ export type HillRushPlayer = {
   userId: string;
   nickname: string;
   color: string;
+  vehicleId: string;
   role: HillRushRole;
   alive: boolean;
   distance: number;
@@ -126,6 +127,7 @@ export function parseHillRushSnapshot(value: unknown): HillRushSnapshot {
             userId: asString(player.user_id),
             nickname: asString(player.nickname) || "Driver",
             color: asString(player.color) || "#e8341c",
+            vehicleId: asString(player.vehicle_id) || "jeep",
             role,
             alive: player.alive !== false,
             distance: Number(player.distance) || 0,
@@ -180,10 +182,23 @@ export function joinHillRushRoom(
   supabase: SupabaseClient,
   code: string,
   nickname: string,
+  vehicleId: string,
 ) {
   return callRoom(supabase, "hillrush_join_room", {
     p_code: code,
     p_nickname: nickname,
+    p_vehicle_id: vehicleId,
+  });
+}
+
+export function setHillRushVehicle(
+  supabase: SupabaseClient,
+  roomId: string,
+  vehicleId: string,
+) {
+  return callRoom(supabase, "hillrush_set_vehicle", {
+    p_room_id: roomId,
+    p_vehicle_id: vehicleId,
   });
 }
 
